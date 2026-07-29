@@ -35,3 +35,7 @@ mysql-data/
 
 # === Build artifacts ===
 build/
+
+# === Private Local Study Notes ===
+INTERVIEW_GUIDE.md
+INTERVIEW_GUIDE.html
