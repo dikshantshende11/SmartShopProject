@@ -1,0 +1,126 @@
+/* ==========================================
+   SMARTSHOP — ORDER SUCCESS STYLES
+   ========================================== */
+
+.order-success-page {
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+.success-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 3rem 2rem;
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+/* ── ANIMATED CHECKMARK ── */
+.success-checkmark-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.checkmark-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba(16, 185, 129, 0.1);
+  border: 3px solid #10B981;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  color: #10B981;
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+  animation: scale-up 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+
+@keyframes scale-up {
+  0% { transform: scale(0); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* ── TYPOGRAPHY ── */
+.success-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1.8rem;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+
+.success-subtitle {
+  font-size: 0.95rem;
+  color: var(--text-dim);
+  margin-bottom: 2rem;
+}
+
+/* ── DETAILS PANEL ── */
+.order-details-box {
+  background: var(--bg-card2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.details-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  font-size: 0.9rem;
+}
+
+.details-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.details-row strong {
+  color: var(--text);
+}
+
+.details-row span {
+  color: var(--text-dim);
+}
+
+.order-ids-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.order-id-badge {
+  background: var(--primary-light);
+  color: var(--primary);
+  border: 1px solid rgba(108, 71, 255, 0.15);
+  font-weight: 700;
+  font-size: 0.8rem;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+/* ── ACTIONS ── */
+.success-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.success-actions .btn {
+  padding: 12px 24px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s ease;
+}
+
+.success-actions .btn:hover {
+  transform: translateY(-2px);
+}

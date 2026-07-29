@@ -1,0 +1,8 @@
+.register-card{
+    max-width:500px;
+    margin:auto;
+    padding:30px;
+    background:white;
+    border-radius:12px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}

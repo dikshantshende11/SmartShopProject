@@ -1,0 +1,179 @@
+/* ================================
+   SMARTSHOP — CART PAGE STYLES
+   Import this in Cart.jsx
+================================ */
+
+/* ── CART ITEM ROW ── */
+.ss-cart-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s;
+}
+
+.ss-cart-item:hover {
+  border-color: rgba(108, 71, 255, 0.2);
+}
+
+/* ── CART ITEM NAME ── */
+.ss-cart-item-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text);
+  margin-bottom: 0.25rem;
+}
+
+/* ── CART ITEM META (price x qty) ── */
+.ss-cart-item-meta {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+/* ── CART ITEM TOTAL ── */
+.ss-cart-item-total {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* ── QUANTITY CONTROLS ── */
+.ss-qty-btn {
+  width: 28px;
+  height: 28px;
+  background: var(--bg-card2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  font-family: 'Inter', sans-serif;
+}
+
+.ss-qty-btn:hover {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+
+.ss-qty-value {
+  font-size: 0.9rem;
+  font-weight: 600;
+  min-width: 20px;
+  text-align: center;
+  color: var(--text);
+}
+
+/* ── REMOVE BUTTON ── */
+.ss-btn-remove {
+  background: rgba(255, 77, 109, 0.1);
+  border: 1px solid rgba(255, 77, 109, 0.2);
+  color: var(--danger);
+  border-radius: var(--radius-sm);
+  padding: 0.4rem 0.85rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'Inter', sans-serif;
+  margin-left: 1rem;
+}
+
+.ss-btn-remove:hover {
+  background: var(--danger);
+  color: #fff;
+}
+
+/* ── ORDER SUMMARY CARD ── */
+.ss-order-summary {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  position: sticky;
+  top: 80px;
+}
+
+/* ── SUMMARY TITLE ── */
+.ss-summary-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── SUMMARY ROWS ── */
+.ss-summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin-bottom: 0.6rem;
+}
+
+/* ── TOTAL ROW ── */
+.ss-summary-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  margin-top: 0.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.ss-summary-total-label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.ss-summary-total-value {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+/* ── PLACE ORDER BUTTON ── */
+.ss-btn-order {
+  width: 100%;
+  margin-top: 1.25rem;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+  border: none;
+  border-radius: var(--radius-sm);
+  color: #0F0E17;
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 0.9rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'Inter', sans-serif;
+}
+
+.ss-btn-order:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(0, 212, 161, 0.35);
+}
+
+.ss-btn-order:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ── FREE DELIVERY BADGE ── */
+.ss-free-delivery {
+  color: var(--accent);
+  font-size: 0.82rem;
+  font-weight: 600;
+}

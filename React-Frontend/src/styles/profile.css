@@ -1,0 +1,183 @@
+/* ====================================
+   SMARTSHOP — USER PROFILE PAGE STYLES
+   Import this in Profile.jsx
+==================================== */
+
+.ss-profile-container {
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+/* ── PROFILE CARD ── */
+.ss-profile-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2.5rem;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.ss-profile-card:hover {
+  border-color: rgba(108, 71, 255, 0.2);
+  box-shadow: var(--shadow), var(--shadow-glow);
+}
+
+/* Glow Effect */
+.ss-profile-card::before {
+  content: '';
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(108, 71, 255, 0.08) 0%, transparent 70%);
+  top: -150px;
+  right: -150px;
+  pointer-events: none;
+}
+
+/* ── AVATAR SECTION ── */
+.ss-avatar-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.ss-profile-avatar {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary) 0%, #8b6eff 50%, var(--accent) 100%);
+  color: #FFF;
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 2.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(108, 71, 255, 0.3);
+  border: 3px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+  margin: 0 auto;
+}
+
+.ss-avatar-wrap:hover .ss-profile-avatar {
+  transform: scale(1.05);
+  box-shadow: 0 4px 25px rgba(108, 71, 255, 0.5);
+}
+
+/* ── DETAILS DISPLAY ── */
+.ss-profile-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-top: 1rem;
+}
+
+.ss-profile-role-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: rgba(108, 71, 255, 0.12);
+  color: #A58FFF;
+  border: 1px solid rgba(108, 71, 255, 0.25);
+  margin-top: 0.35rem;
+}
+
+.ss-profile-role-badge.admin {
+  background: rgba(255, 77, 109, 0.12);
+  color: var(--danger);
+  border: 1px solid rgba(255, 77, 109, 0.25);
+}
+
+/* ── STATS SECTION ── */
+.ss-profile-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin: 2rem 0;
+  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  text-align: center;
+}
+
+.ss-stat-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.ss-stat-val {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.ss-stat-lbl {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  margin-top: 0.25rem;
+}
+
+/* ── DATA SECTION ── */
+.ss-profile-info {
+  margin-top: 2rem;
+  border-top: 1px solid var(--border);
+  padding-top: 1.5rem;
+}
+
+.ss-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.ss-info-row:last-child {
+  border-bottom: none;
+}
+
+.ss-info-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.ss-info-value {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+/* ── FORM & TRANSITIONS ── */
+.ss-profile-edit-form {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.ss-edit-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.ss-edit-actions button {
+  flex: 1;
+}

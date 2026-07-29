@@ -1,0 +1,53 @@
+/* ==========================================
+   SMARTSHOP — WISHLIST PAGE STYLES
+   ========================================== */
+
+.wishlist-page {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.wishlist-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 2.2rem;
+  color: var(--text);
+  margin-bottom: 5px;
+}
+
+.wishlist-title span {
+  color: var(--primary);
+}
+
+.wishlist-subtitle {
+  font-size: 0.95rem;
+  color: var(--text-dim);
+}
+
+/* Empty State styling */
+.wishlist-empty-state {
+  background: var(--bg-card);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 4rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.wishlist-empty-icon {
+  font-size: 4rem;
+  animation: pulse-heart 2s infinite ease-in-out;
+}
+
+@keyframes pulse-heart {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.18); }
+}
+
+.wishlist-empty-state p {
+  max-width: 420px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}

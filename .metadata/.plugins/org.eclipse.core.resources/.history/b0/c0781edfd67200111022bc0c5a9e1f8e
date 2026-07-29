@@ -1,0 +1,140 @@
+package com.example.demo;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.Mockito.when;
+
+import java.util.*;
+import java.util.Optional;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.junit.jupiter.api.Test;
+import static org.mockito.Mockito.verify;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import com.smartshop.product.entity.Product;
+
+import com.smartshop.product.repository.ProductRepository;
+import com.smartshop.product.serviceimpl.ProductServiceimpl;
+
+public class ProductServiceimplTest {
+
+	@Mock
+	private ProductRepository repository;
+	
+	@InjectMocks
+	private ProductServiceimpl service;
+	
+	@BeforeEach
+	void setup()
+	{
+		MockitoAnnotations.openMocks(this);
+	}
+	
+	@Test
+	void testSaveProduct()
+	{
+
+	    Product product = new Product();
+
+	    product.setId(1L);
+	    product.setName("Laptop");
+	    product.setPrice(50000.0);
+	    product.setStock(10);
+	    
+	    when(repository.save(product))
+        .thenReturn(product);
+	    
+	    Product savedProduct = service.saveProduct(product);
+	    
+	    assertEquals("Laptop", savedProduct.getName());
+	    
+	}
+	
+	
+	@Test
+	void testGetProductById() {
+
+	    Product product = new Product();
+	    product.setId(1L);
+	    product.setName("Mobile");
+
+	    when(repository.findById(1L))
+	            .thenReturn(Optional.of(product));
+
+	    Product result = service.getProductById(1L);
+
+	    assertEquals("Mobile", result.getName());
+	}
+	
+	@Test
+	void testGetAllProducts() {
+
+	    Product p1 = new Product();
+	    p1.setName("Laptop");
+
+	    Product p2 = new Product();
+	    p2.setName("Mobile");
+
+	    List<Product> products = Arrays.asList(p1, p2);
+
+	    when(repository.findAll()).thenReturn(products);
+
+	    List<Product> result = service.getAllProducts();
+
+	    assertEquals(2, result.size());
+	}
+	
+	
+	@Test
+	void testDeleteProduct() {
+
+	    service.deleteProduct(1L);
+
+	    verify(repository, times(1))
+	            .deleteById(1L);
+	}
+	
+	
+	@Test
+	void testUpdateProduct() {
+
+	    Product existing = new Product();
+	    existing.setId(1L);
+	    existing.setName("Old Mobile");
+
+	    Product updated = new Product();
+	    updated.setName("New Mobile");
+	    updated.setPrice(25000.0);
+	    updated.setQuantity(5);
+
+	    when(repository.findById(1L))
+	            .thenReturn(Optional.of(existing));
+
+	    when(repository.save(any(Product.class)))
+	            .thenReturn(existing);
+
+	    Product result = service.updateProduct(1L, updated);
+
+	    assertEquals("New Mobile", result.getName());
+	}
+	
+	
+	@Test
+	void testUpdateProduct_NotFound() {
+
+	    Product updated = new Product();
+	    updated.setName("New Mobile");
+
+	    when(repository.findById(1L))
+	            .thenReturn(Optional.empty());
+
+	    Product result = service.updateProduct(1L, updated);
+
+	    assertNull(result);
+	}
+	
+}

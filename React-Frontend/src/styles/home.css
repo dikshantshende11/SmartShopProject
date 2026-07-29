@@ -1,0 +1,124 @@
+/* ================================
+   SMARTSHOP — HOME PAGE STYLES
+   Import this in Home.jsx
+================================ */
+
+/* ── PRODUCT CARD ── */
+.ss-product-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  height: 100%;
+  transition: all 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── GRADIENT TOP BORDER ON HOVER ── */
+.ss-product-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.ss-product-card:hover {
+  border-color: rgba(108, 71, 255, 0.3);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow), var(--shadow-glow);
+}
+
+.ss-product-card:hover::before {
+  opacity: 1;
+}
+
+/* ── PRODUCT ICON BOX ── */
+.ss-product-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(
+    135deg,
+    rgba(108, 71, 255, 0.2),
+    rgba(0, 212, 161, 0.1)
+  );
+}
+
+/* ── PRODUCT NAME ── */
+.ss-product-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+/* ── PRODUCT PRICE ── */
+.ss-product-price {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--accent);
+  margin-bottom: 0.4rem;
+}
+
+/* ── STOCK STATUS ── */
+.ss-product-stock {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+/* ── STOCK DOT INDICATOR ── */
+.ss-stock-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);   /* green = in stock */
+  display: inline-block;
+}
+
+.ss-stock-dot.out {
+  background: var(--danger);   /* red = out of stock */
+}
+
+/* ── ADD TO CART BUTTON ── */
+.ss-btn-add {
+  width: 100%;
+  background: var(--bg-card2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.65rem 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'Inter', sans-serif;
+}
+
+.ss-btn-add:hover:not(:disabled) {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(108, 71, 255, 0.35);
+}
+
+.ss-btn-add:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

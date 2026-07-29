@@ -1,0 +1,210 @@
+/* ================================
+   SMARTSHOP — ORDERS PAGE STYLES
+   Import this in OrderHistory.jsx
+================================ */
+
+/* ── ORDER CARD ── */
+.ss-order-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  transition: all 0.2s;
+}
+
+.ss-order-card:hover {
+  border-color: rgba(108, 71, 255, 0.25);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* ── ORDER CARD HEADER ── */
+.ss-order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── ORDER ID ── */
+.ss-order-id {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1rem;
+  color: var(--text);
+}
+
+.ss-order-id span {
+  color: var(--text-dim);
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 0.8rem;
+}
+
+/* ── STATUS BADGE ── */
+.ss-badge {
+  padding: 0.3rem 0.85rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Green - Placed / Delivered */
+.ss-badge-placed {
+  background: rgba(0, 212, 161, 0.12);
+  color: var(--accent);
+  border: 1px solid rgba(0, 212, 161, 0.25);
+}
+
+/* Yellow - Pending */
+.ss-badge-pending {
+  background: rgba(255, 182, 39, 0.12);
+  color: var(--warning);
+  border: 1px solid rgba(255, 182, 39, 0.25);
+}
+
+/* Red - Cancelled */
+.ss-badge-cancelled {
+  background: rgba(255, 77, 109, 0.12);
+  color: var(--danger);
+  border: 1px solid rgba(255, 77, 109, 0.25);
+}
+
+/* ── ORDER META (3 columns) ── */
+.ss-order-meta {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+/* ── META ITEM ── */
+.ss-order-meta-item label {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+.ss-order-meta-item span {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* ── TOTAL AMOUNT ── */
+.ss-order-meta-item.total span {
+  color: var(--accent);
+  font-family: 'Syne', sans-serif;
+  font-size: 1.05rem;
+}
+
+/* ─────────────────────────────────────
+   ORDER TRACKING TIMELINE
+───────────────────────────────────── */
+.order-timeline {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  position: relative;
+  margin: 1rem 0 1.25rem;
+  padding: 0.75rem 0.5rem;
+  background: var(--bg-card2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.timeline-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  flex: 1;
+  z-index: 1;
+}
+
+.timeline-dot {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  border: 2px solid var(--border);
+  background: var(--bg-card);
+  transition: all 0.3s ease;
+  margin-bottom: 6px;
+}
+
+.timeline-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-align: center;
+  color: var(--text-muted);
+  max-width: 70px;
+  line-height: 1.3;
+}
+
+/* Connector line between steps */
+.timeline-line {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  width: 100%;
+  height: 2px;
+  background: var(--border);
+  z-index: 0;
+}
+.timeline-line.filled {
+  background: linear-gradient(90deg, #4f46e5, #7c3aed);
+}
+
+/* ─ Completed step ─ */
+.timeline-step.completed .timeline-dot {
+  background: var(--primary-light);
+  border-color: var(--primary);
+}
+.timeline-step.completed .timeline-label { color: var(--primary); }
+
+/* ─ Active step ─ */
+.timeline-step.active .timeline-dot {
+  background: var(--primary);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px var(--primary-light);
+  animation: timeline-pulse 1.8s infinite;
+}
+.timeline-step.active .timeline-label {
+  color: var(--primary);
+  font-weight: 800;
+}
+
+@keyframes timeline-pulse {
+  0%, 100% { box-shadow: 0 0 0 4px var(--primary-light); }
+  50%       { box-shadow: 0 0 0 8px transparent; }
+}
+
+/* ─ Pending step ─ */
+.timeline-step.pending .timeline-dot { opacity: 0.4; }
+.timeline-step.pending .timeline-label { opacity: 0.4; }
+
+/* ─ Cancelled state ─ */
+.order-timeline-cancelled {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.06);
+  border: 1px solid rgba(239, 68, 68, 0.15);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  margin: 0.75rem 0 1.25rem;
+}
