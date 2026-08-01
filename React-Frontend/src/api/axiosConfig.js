@@ -1,14 +1,21 @@
 import axios from "axios";
 
+// Production: Railway backend | Development: localhost
+const PROD_URL = "https://smartshopproject-production.up.railway.app";
+const DEV_URL = "http://localhost:8080";
+
+const isProduction = import.meta.env.PROD;
+const BASE_URL = isProduction ? PROD_URL : DEV_URL;
+
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:8080",
-  timeout: 6000, // 6 seconds timeout
+  baseURL: BASE_URL,
+  timeout: 15000, // 15 seconds timeout (cloud is slower than localhost)
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-// Port mapping for fallback when API gateway (8080) is offline
+// Port mapping for local development fallback when API gateway (8080) is offline
 const DIRECT_PORT_MAP = {
   "/api/users": 8081,
   "/api/products": 8082,
@@ -27,14 +34,15 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Response interceptor: Fallback to direct service ports if Gateway (8080) fails/times out
+// Response interceptor: Fallback to direct service ports in LOCAL DEV if Gateway (8080) fails
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
 
-    // Check if network error or gateway failure, and request hasn't been retried yet
+    // Only fallback to direct ports in local dev mode
     if (
+      !isProduction &&
       (error.code === "ECONNABORTED" || error.message?.includes("Network Error") || error.response?.status === 503) &&
       !originalRequest._retryDirect
     ) {
@@ -43,7 +51,7 @@ axiosInstance.interceptors.response.use(
 
       for (const [prefix, port] of Object.entries(DIRECT_PORT_MAP)) {
         if (url.startsWith(prefix)) {
-          console.warn(`Gateway (8080) offline. Retrying request directly on port ${port}: ${url}`);
+          console.warn(`Gateway (8080) offline. Retrying directly on port ${port}: ${url}`);
           originalRequest.baseURL = `http://localhost:${port}`;
           return axiosInstance(originalRequest);
         }
