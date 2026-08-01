@@ -88,7 +88,7 @@ function Login() {
 
       let errMsg = "Login failed. Please check your credentials or network connection.";
       if (err.code === "ECONNABORTED" || err.message?.includes("Network Error")) {
-        errMsg = "⚠️ Backend server (http://localhost:8080) is offline. Please start Docker/Backend service.";
+        errMsg = "⚠️ Network error. Please check your internet connection and try again.";
       } else if (err.response?.data) {
         if (typeof err.response.data === "string") {
           errMsg = err.response.data;
