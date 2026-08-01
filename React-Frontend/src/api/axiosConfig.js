@@ -7,28 +7,14 @@ const PROD_USER_URL    = "https://smartshopproject-production.up.railway.app";
 const PROD_PRODUCT_URL = "https://smartshopproject-production-0cfb.up.railway.app";
 const PROD_ORDER_URL   = "https://affectionate-enthusiasm-production-4d16.up.railway.app";
 
-// =============================================
-// DEVELOPMENT: Local backend URLs
-// =============================================
-const DEV_URL = "http://localhost:8080";
-const DIRECT_PORT_MAP = {
-  "/api/users":    8081,
-  "/api/products": 8082,
-  "/api/orders":   8083,
-};
-
-const isProduction = import.meta.env.PROD;
-
-// Create axios instance (default: user service in prod, gateway in dev)
 const axiosInstance = axios.create({
-  baseURL: isProduction ? PROD_USER_URL : DEV_URL,
   timeout: 20000,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-// Request interceptor — JWT token + smart URL routing in production
+// Request interceptor — JWT token + bulletproof full URL routing
 axiosInstance.interceptors.request.use(
   (config) => {
     // Add Authorization header if token exists
@@ -37,15 +23,21 @@ axiosInstance.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`;
     }
 
-    // In PRODUCTION: route to correct Railway service based on URL path
-    if (isProduction) {
+    const hostname = window.location.hostname;
+    const isCloud = hostname !== "localhost" && hostname !== "127.0.0.1";
+
+    if (isCloud) {
       const url = config.url || "";
       if (url.startsWith("/api/products")) {
-        config.baseURL = PROD_PRODUCT_URL;
+        config.url = `${PROD_PRODUCT_URL}${url}`;
       } else if (url.startsWith("/api/orders")) {
-        config.baseURL = PROD_ORDER_URL;
-      } else {
-        config.baseURL = PROD_USER_URL;
+        config.url = `${PROD_ORDER_URL}${url}`;
+      } else if (url.startsWith("/api/users")) {
+        config.url = `${PROD_USER_URL}${url}`;
+      }
+    } else {
+      if (!config.url.startsWith("http")) {
+        config.url = `http://localhost:8080${config.url}`;
       }
     }
 
@@ -59,9 +51,11 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
+    const hostname = window.location.hostname;
+    const isLocal = hostname === "localhost" || hostname === "127.0.0.1";
 
     if (
-      !isProduction &&
+      isLocal &&
       (error.code === "ECONNABORTED" ||
         error.message?.includes("Network Error") ||
         error.response?.status === 503) &&
@@ -70,10 +64,16 @@ axiosInstance.interceptors.response.use(
       originalRequest._retryDirect = true;
       const url = originalRequest.url || "";
 
+      const DIRECT_PORT_MAP = {
+        "/api/users":    8081,
+        "/api/products": 8082,
+        "/api/orders":   8083,
+      };
+
       for (const [prefix, port] of Object.entries(DIRECT_PORT_MAP)) {
-        if (url.startsWith(prefix)) {
+        if (url.includes(prefix)) {
           console.warn(`Gateway offline. Retrying directly on port ${port}: ${url}`);
-          originalRequest.baseURL = `http://localhost:${port}`;
+          originalRequest.url = `http://localhost:${port}${prefix}`;
           return axiosInstance(originalRequest);
         }
       }
