@@ -5,6 +5,7 @@ import axios from "axios";
 // =============================================
 const PROD_USER_URL    = "https://smartshopproject-production.up.railway.app";
 const PROD_PRODUCT_URL = "https://smartshopproject-production-0cfb.up.railway.app";
+const PROD_ORDER_URL   = "https://affectionate-enthusiasm-production-4d16.up.railway.app";
 
 // =============================================
 // DEVELOPMENT: Local backend URLs
@@ -41,6 +42,8 @@ axiosInstance.interceptors.request.use(
       const url = config.url || "";
       if (url.startsWith("/api/products")) {
         config.baseURL = PROD_PRODUCT_URL;
+      } else if (url.startsWith("/api/orders")) {
+        config.baseURL = PROD_ORDER_URL;
       } else {
         config.baseURL = PROD_USER_URL;
       }
