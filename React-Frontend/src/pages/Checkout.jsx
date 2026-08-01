@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { placeOrder } from "../services/orderService";
 import { clearCart } from "../features/cart/cartSlice";
 import { toast } from "react-toastify";
+import PaymentModal from "../components/PaymentModal/PaymentModal";
+import UpiModal from "../components/UpiModal/UpiModal";
 import "./Checkout.css";
 
 const GST_RATE  = 0.05;
@@ -28,6 +30,8 @@ function Checkout() {
   const [paymentMethod, setPaymentMethod] = useState("COD");
   const [loading, setLoading] = useState(false);
   const [error, setError]     = useState("");
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [showUpiModal, setShowUpiModal]         = useState(false);
 
   useEffect(() => {
     if (!isAuthenticated) navigate("/login");
@@ -56,6 +60,21 @@ function Checkout() {
       return;
     }
 
+    // Trigger specific payment modal
+    if (paymentMethod === "CARD") {
+      setShowPaymentModal(true);
+      return;
+    }
+
+    if (paymentMethod === "UPI") {
+      setShowUpiModal(true);
+      return;
+    }
+
+    await executeOrder();
+  };
+
+  const executeOrder = async () => {
     try {
       setLoading(true);
       const orderPromises = cartItems.map((item) =>
@@ -283,6 +302,29 @@ function Checkout() {
           </div>
         </div>
       </div>
+
+      {/* PAYMENT GATEWAY MODALS */}
+      {showPaymentModal && (
+        <PaymentModal
+          total={Math.round(grandTotal)}
+          onSuccess={() => {
+            setShowPaymentModal(false);
+            executeOrder();
+          }}
+          onClose={() => setShowPaymentModal(false)}
+        />
+      )}
+
+      {showUpiModal && (
+        <UpiModal
+          total={Math.round(grandTotal)}
+          onSuccess={() => {
+            setShowUpiModal(false);
+            executeOrder();
+          }}
+          onClose={() => setShowUpiModal(false)}
+        />
+      )}
     </div>
   );
 }

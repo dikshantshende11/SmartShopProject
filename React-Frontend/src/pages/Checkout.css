@@ -29,7 +29,7 @@
 }
 
 .step { color: var(--text-muted); }
-.step.done  { color: #10b981; }
+.step.done  { color: var(--accent); }
 .step.active { color: var(--primary); font-weight: 800; }
 .step-arrow { color: var(--border); }
 
@@ -226,7 +226,7 @@
   color: var(--text);
 }
 
-.free-text { color: #10b981 !important; font-weight: 700 !important; }
+.free-text { color: var(--accent) !important; font-weight: 700 !important; }
 
 .grand-total {
   font-size: 1.1rem !important;

@@ -15,6 +15,7 @@ import com.smartshop.product.servicei.ProductServiceI;
 
 @RestController
 @RequestMapping("/api/products")
+@org.springframework.web.bind.annotation.CrossOrigin(origins = "*")
 public class ProductController {
 	@Autowired
 	private ProductServiceI service;

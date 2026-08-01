@@ -3,16 +3,25 @@
    ======================================= */
 
 .ss-hero-banner {
-  background: radial-gradient(circle at 85% 20%, rgba(79, 70, 229, 0.1) 0%, transparent 60%),
-              linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%);
-  backdrop-filter: blur(12px);
+  background: radial-gradient(circle at 85% 20%, rgba(79, 70, 229, 0.12) 0%, transparent 60%),
+              linear-gradient(135deg, var(--bg-card) 0%, var(--bg-card2) 100%);
+  backdrop-filter: blur(16px);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 2.25rem 3rem;
+  padding: 2.5rem 3rem;
   margin-bottom: 2rem;
   box-shadow: var(--shadow);
   position: relative;
   overflow: hidden;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Dark Mode Overrides for Hero Banner */
+[data-theme="dark"] .ss-hero-banner {
+  background: radial-gradient(circle at 80% 25%, rgba(124, 58, 237, 0.25) 0%, transparent 65%),
+              linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4), 0 0 35px rgba(124, 58, 237, 0.15);
 }
 
 /* Decorative soft glow background circle */
@@ -38,12 +47,31 @@
   letter-spacing: 1px;
   text-transform: uppercase;
   margin-bottom: 0.75rem;
-  border: 1px solid rgba(15, 23, 42, 0.04);
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
+}
+
+.ss-hero-badge.badge-electronics {
+  background: rgba(99, 102, 241, 0.15);
+  color: #818CF8;
+  border: 1px solid rgba(99, 102, 241, 0.3);
+}
+
+.ss-hero-badge.badge-fashion {
+  background: rgba(236, 72, 153, 0.15);
+  color: #F472B6;
+  border: 1px solid rgba(236, 72, 153, 0.3);
+}
+
+.ss-hero-badge.badge-foods {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34D399;
+  border: 1px solid rgba(16, 185, 129, 0.3);
 }
 
 .ss-hero-title {
   font-family: 'Syne', sans-serif;
-  font-size: 2.25rem;
+  font-size: 2.4rem;
   font-weight: 800;
   color: var(--text);
   margin-bottom: 0.65rem;
@@ -62,9 +90,9 @@
 
 .ss-hero-desc {
   color: var(--text-muted);
-  font-size: 0.95rem;
+  font-size: 0.98rem;
   max-width: 500px;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
   line-height: 1.6;
   position: relative;
   z-index: 2;
@@ -72,23 +100,22 @@
 
 /* ── ACTION BUTTON ── */
 .ss-hero-btn {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
   border: none;
   border-radius: var(--radius-sm);
   color: #fff;
-  font-weight: 600;
-  font-size: 0.9rem;
-  padding: 0.65rem 1.6rem;
+  font-weight: 700;
+  font-size: 0.92rem;
+  padding: 0.75rem 1.8rem;
   cursor: pointer;
-  box-shadow: 0 4px 15px rgba(79, 70, 229, 0.25);
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.3);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   z-index: 2;
 }
 
 .ss-hero-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4), var(--shadow-glow);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 25px rgba(79, 70, 229, 0.45);
 }
 
 .ss-hero-btn:active {
@@ -116,9 +143,10 @@
 }
 
 .ss-hero-dot.active {
-  width: 24px;
+  width: 28px;
   border-radius: 4px;
   background: var(--primary);
+  box-shadow: 0 0 10px var(--primary);
 }
 
 /* ── IMAGE SECTION ── */
@@ -126,13 +154,13 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding-right: 1.5rem;
+  padding-right: 1rem;
 }
 
 .ss-hero-image-container {
   position: relative;
   width: 100%;
-  max-width: 310px;
+  max-width: 320px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -145,17 +173,17 @@
   z-index: 2;
   position: relative;
   animation: float 6s ease-in-out infinite;
+  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.2));
 }
 
 .ss-hero-circle-glow {
   position: absolute;
-  top: 10%;
-  left: 10%;
-  width: 80%;
-  height: 80%;
-  background: radial-gradient(circle, rgba(79, 70, 229, 0.12) 0%, transparent 65%);
+  top: 5%;
+  left: 5%;
+  width: 90%;
+  height: 90%;
   z-index: 1;
-  filter: blur(25px);
+  filter: blur(35px);
   pointer-events: none;
 }
 

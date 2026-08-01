@@ -29,6 +29,10 @@ function Home() {
   const [products, setProducts]               = useState([]);
   const [loading, setLoading]                 = useState(true);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  
+  // Advanced Sorting & Filter States
+  const [sortBy, setSortBy]                   = useState("featured");
+  const [minRating, setMinRating]             = useState(0);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -45,16 +49,34 @@ function Home() {
     fetchProducts();
   }, []);
 
-  // Apply both search term AND category filter
-  const filteredProducts = products.filter((product) => {
+  // Filter products by search term, category, and minimum rating
+  let processedProducts = products.filter((product) => {
     const matchesSearch = product.name
-      .toLowerCase()
+      ?.toLowerCase()
       .includes(searchTerm.toLowerCase());
     const matchesCategory = selectedCategory
       ? product.category?.toLowerCase() === selectedCategory.toLowerCase()
       : true;
-    return matchesSearch && matchesCategory;
+    const matchesRating = minRating ? (product.rating || 0) >= minRating : true;
+    return matchesSearch && matchesCategory && matchesRating;
   });
+
+  // Apply sorting algorithm
+  if (sortBy === "price-asc") {
+    processedProducts.sort((a, b) => (a.price || 0) - (b.price || 0));
+  } else if (sortBy === "price-desc") {
+    processedProducts.sort((a, b) => (b.price || 0) - (a.price || 0));
+  } else if (sortBy === "rating-desc") {
+    processedProducts.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+  } else if (sortBy === "name-asc") {
+    processedProducts.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
+  }
+
+  const handleResetFilters = () => {
+    setSelectedCategory(null);
+    setSortBy("featured");
+    setMinRating(0);
+  };
 
   const sectionTitle = selectedCategory
     ? `${selectedCategory} Products`
@@ -72,34 +94,66 @@ function Home() {
         onSelect={setSelectedCategory}
       />
 
-      <div className="d-flex align-items-center justify-content-between mb-3">
-        <h2 style={{ fontFamily: "'Syne', sans-serif", fontWeight: "800", marginBottom: 0 }}>
-          {sectionTitle}
-        </h2>
-        {selectedCategory && (
-          <button
-            className="btn btn-sm"
-            style={{
-              background: "var(--primary-light)",
-              color: "var(--primary)",
-              border: "1px solid var(--primary)",
-              borderRadius: "99px",
-              fontWeight: "700",
-              fontSize: "0.8rem",
-              padding: "4px 14px",
-            }}
-            onClick={() => setSelectedCategory(null)}
-          >
-            ✕ Clear Filter
-          </button>
-        )}
+      {/* CATALOG CONTROLS TOOLBAR */}
+      <div className="catalog-toolbar d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4 p-3 rounded" style={{ background: "var(--bg-card)", border: "1px solid var(--border)" }}>
+        <div className="d-flex align-items-center gap-2">
+          <h2 style={{ fontFamily: "'Syne', sans-serif", fontWeight: "800", marginBottom: 0 }}>
+            {sectionTitle}
+          </h2>
+          <span className="badge bg-primary rounded-pill">{processedProducts.length} items</span>
+        </div>
+
+        <div className="d-flex flex-wrap align-items-center gap-3">
+          {/* Min Rating Filter */}
+          <div className="d-flex align-items-center gap-2">
+            <label className="toolbar-label text-muted mb-0" style={{ fontSize: "0.85rem", fontWeight: "700" }}>Rating:</label>
+            <select
+              className="form-select form-select-sm toolbar-select"
+              style={{ width: "130px", background: "var(--bg-card2)", color: "var(--text)", borderColor: "var(--border)", fontWeight: "600" }}
+              value={minRating}
+              onChange={(e) => setMinRating(Number(e.target.value))}
+            >
+              <option value={0}>All Ratings</option>
+              <option value={4.0}>4.0★ & above</option>
+              <option value={4.5}>4.5★ & above</option>
+            </select>
+          </div>
+
+          {/* Sort By Dropdown */}
+          <div className="d-flex align-items-center gap-2">
+            <label className="toolbar-label text-muted mb-0" style={{ fontSize: "0.85rem", fontWeight: "700" }}>Sort By:</label>
+            <select
+              className="form-select form-select-sm toolbar-select"
+              style={{ width: "175px", background: "var(--bg-card2)", color: "var(--text)", borderColor: "var(--border)", fontWeight: "600" }}
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+            >
+              <option value="featured">Featured</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+              <option value="rating-desc">Highest Rated</option>
+              <option value="name-asc">Name: A to Z</option>
+            </select>
+          </div>
+
+          {/* Reset Filters Button */}
+          {(selectedCategory || sortBy !== "featured" || minRating !== 0) && (
+            <button
+              className="btn btn-sm btn-outline-danger"
+              style={{ borderRadius: "99px", fontWeight: "700", fontSize: "0.8rem", padding: "4px 14px" }}
+              onClick={handleResetFilters}
+            >
+              ✕ Reset Filters
+            </button>
+          )}
+        </div>
       </div>
 
       <div className="row">
         {loading ? (
           Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)
-        ) : filteredProducts.length > 0 ? (
-          filteredProducts.map((product) => (
+        ) : processedProducts.length > 0 ? (
+          processedProducts.map((product) => (
             <div key={product.id} className="col-md-4 mb-4">
               <ProductCard
                 id={product.id}

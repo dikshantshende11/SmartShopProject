@@ -58,9 +58,9 @@
   gap: 8px;
   margin-bottom: 1.5rem;
   padding: 6px 14px;
-  background: rgba(16, 185, 129, 0.08);
-  border: 1px solid rgba(16, 185, 129, 0.15);
-  color: #059669;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  color: var(--accent);
   border-radius: 99px;
   font-weight: 700;
   font-size: 0.85rem;
@@ -90,7 +90,7 @@
 }
 
 .stock.available {
-  color: #059669;
+  color: var(--accent);
 }
 
 .stock.unavailable {

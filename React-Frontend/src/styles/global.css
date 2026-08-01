@@ -3,7 +3,7 @@
    Import this in main.jsx
 ================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@700;800&family=Space+Grotesk:wght@600;700;800&display=swap');
 
 /* ── CSS VARIABLES (Colors & Fonts) ── */
 :root {
@@ -34,6 +34,23 @@
   --shadow-glow:   0 0 40px rgba(79, 70, 229, 0.08);
 }
 
+/* ── DARK THEME OVERRIDES ── */
+[data-theme="dark"] {
+  --bg:            #0B0F19;   /* sleek deep dark background */
+  --bg-card:       #151C2C;   /* card dark background */
+  --bg-card2:      #1E293B;   /* input / button dark background */
+
+  --primary-light: rgba(79, 70, 229, 0.2); /* dark mode primary highlight */
+  --border:        rgba(255, 255, 255, 0.1); /* light border for dark elements */
+
+  --text:          #F8FAFC;   /* main light text */
+  --text-muted:    #94A3B8;   /* muted text for dark mode */
+  --text-dim:      #64748B;   /* dim text */
+
+  --shadow:        0 10px 30px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-glow:   0 0 40px rgba(79, 70, 229, 0.25);
+}
+
 /* ── RESET ── */
 * {
   box-sizing: border-box;
@@ -47,6 +64,7 @@ body {
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* ── SPINNER (used in Home & Orders) ── */
@@ -70,7 +88,7 @@ body {
   to { transform: rotate(360deg); }
 }
 
-/* ── EMPTY STATE (used in Cart & Orders) ── */
+/* ── EMPTY STATE ── */
 .ss-empty {
   text-align: center;
   padding: 5rem 2rem;
@@ -123,7 +141,7 @@ body {
   margin-top: 0.35rem;
 }
 
-/* ── SECONDARY BUTTON (shared) ── */
+/* ── SECONDARY BUTTON ── */
 .ss-btn-secondary {
   background: var(--bg-card2);
   border: 1px solid var(--border);
@@ -168,7 +186,7 @@ body {
   to   { transform: translateX(0);     opacity: 1; }
 }
 
-/* ── BOOTSTRAP DARK MODE OVERRIDES ── */
+/* ── COMPREHENSIVE BOOTSTRAP & FORM THEME OVERRIDES ── */
 
 /* Card Override */
 .card {
@@ -180,8 +198,8 @@ body {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
-/* Form Controls & Inputs */
-.form-control, input[type="text"], input[type="email"], input[type="password"], select, textarea {
+/* Form Controls, Inputs & Native Selects */
+.form-control, .form-select, input[type="text"], input[type="email"], input[type="password"], select, textarea {
   background-color: var(--bg-card2) !important;
   border: 1px solid var(--border) !important;
   color: var(--text) !important;
@@ -189,7 +207,13 @@ body {
   transition: all 0.3s ease !important;
 }
 
-.form-control:focus, input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus, select:focus, textarea:focus {
+/* Fix Native Dropdown Options in Dark & Light Modes */
+option {
+  background-color: var(--bg-card) !important;
+  color: var(--text) !important;
+}
+
+.form-control:focus, .form-select:focus, input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus, select:focus, textarea:focus {
   background-color: var(--bg-card) !important;
   border-color: var(--primary) !important;
   box-shadow: 0 0 15px rgba(108, 71, 255, 0.25) !important;
@@ -214,10 +238,6 @@ body {
   filter: brightness(1.05);
 }
 
-.btn-primary:active {
-  transform: translateY(0) !important;
-}
-
 .btn-outline-primary {
   border: 1px solid var(--primary) !important;
   color: var(--primary) !important;
@@ -231,21 +251,62 @@ body {
   background: var(--primary) !important;
   color: #fff !important;
   transform: translateY(-2px) !important;
-  box-shadow: 0 6px 18px rgba(108, 71, 255, 0.3) !important;
 }
 
-.btn-outline-primary:active {
-  transform: translateY(0) !important;
+/* Table Dark & Light Mode Theme Adaptations */
+.table {
+  color: var(--text) !important;
+  border-color: var(--border) !important;
 }
 
-/* Standard head links */
+.table > :not(caption) > * > * {
+  background-color: transparent !important;
+  color: var(--text) !important;
+  border-bottom-color: var(--border) !important;
+}
+
+.table-hover > tbody > tr:hover > * {
+  background-color: var(--bg-card2) !important;
+  color: var(--text) !important;
+}
+
+/* Bootstrap Text Utilities Dark Mode Adaptations */
+[data-theme="dark"] .text-muted {
+  color: #94A3B8 !important;
+}
+
+[data-theme="dark"] .text-dark {
+  color: #F8FAFC !important;
+}
+
+[data-theme="dark"] .text-black {
+  color: #F8FAFC !important;
+}
+
+[data-theme="dark"] .bg-white {
+  background-color: #151C2C !important;
+  color: #F8FAFC !important;
+}
+
+[data-theme="dark"] .bg-light {
+  background-color: #1E293B !important;
+  color: #F8FAFC !important;
+}
+
+[data-theme="dark"] .modal-content {
+  background-color: #151C2C !important;
+  color: #F8FAFC !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Headings */
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Syne', sans-serif;
   color: var(--text);
   font-weight: 700;
 }
 
-/* Category cards hover micro-animation */
+/* Category Cards Micro-Animation */
 .category-pill-card {
   display: flex;
   flex-direction: column;
@@ -281,233 +342,156 @@ h1, h2, h3, h4, h5, h6 {
 
 .category-pill-card:hover .category-icon-wrapper {
   transform: translateY(-5px);
-  border-color: rgba(79, 70, 229, 0.25) !important;
-  background: var(--primary-light) !important;
-  box-shadow: 0 8px 24px rgba(79, 70, 229, 0.15) !important;
+  border-color: var(--primary) !important;
+  box-shadow: 0 8px 24px rgba(79, 70, 229, 0.2);
 }
 
 .category-pill-card:hover .category-label-text {
+  color: var(--primary);
+}
+
+/* ────────────────────────────────────────────────────
+   COMPREHENSIVE GLOBAL DARK & LIGHT MODE OVERRIDES
+   All Bootstrap and inline-styled elements adapt here
+──────────────────────────────────────────────────── */
+
+/* ── Modal: header, body, footer ── */
+.modal-header, .modal-body, .modal-footer {
+  background-color: var(--bg-card) !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
+}
+
+.modal-header .modal-title,
+.modal-body p,
+.modal-body span,
+.modal-body label,
+.modal-body h5,
+.modal-body h4 {
+  color: var(--text) !important;
+}
+
+.modal-header .btn-close {
+  filter: var(--btn-close-filter, none);
+}
+
+[data-theme="dark"] .btn-close {
+  filter: invert(1) grayscale(100%) brightness(200%) !important;
+}
+
+/* ── Admin list items / rows ── */
+.list-group-item {
+  background-color: var(--bg-card) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+
+/* ── Nav pills / tabs ── */
+.nav-pills .nav-link {
+  color: var(--text-muted) !important;
+  background: transparent !important;
+}
+.nav-pills .nav-link.active {
+  background: var(--primary) !important;
+  color: #fff !important;
+}
+.nav-tabs .nav-link {
+  color: var(--text-muted) !important;
+}
+.nav-tabs .nav-link.active {
+  color: var(--primary) !important;
+  background: var(--bg-card) !important;
+  border-color: var(--border) !important;
+}
+
+/* ── Badges ── */
+.badge {
+  font-weight: 700;
+}
+
+/* ── Dropdown menus ── */
+.dropdown-menu {
+  background-color: var(--bg-card) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: var(--shadow) !important;
+  color: var(--text) !important;
+}
+
+.dropdown-item {
+  color: var(--text) !important;
+}
+
+.dropdown-item:hover, .dropdown-item:focus {
+  background-color: var(--bg-card2) !important;
   color: var(--primary) !important;
 }
 
-/* ── ACTIVE / SELECTED state ── */
-.category-pill-active {
-  position: relative;
+/* ── Pagination ── */
+.page-link {
+  background-color: var(--bg-card) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
 }
 
-.category-icon-active {
-  transform: translateY(-5px);
+.page-link:hover {
+  background-color: var(--bg-card2) !important;
+  color: var(--primary) !important;
+}
+
+.page-item.active .page-link {
+  background-color: var(--primary) !important;
   border-color: var(--primary) !important;
-  background: var(--primary-light) !important;
-  box-shadow: 0 8px 24px rgba(79, 70, 229, 0.25) !important;
-}
-
-.category-label-active {
-  color: var(--primary) !important;
-  font-weight: 800;
-}
-
-/* Small dot below active category */
-.category-active-dot {
-  display: block;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--primary);
-  margin-top: 5px;
-  animation: dot-pop 0.25s ease;
-}
-
-@keyframes dot-pop {
-  from { transform: scale(0); opacity: 0; }
-  to   { transform: scale(1); opacity: 1; }
-}
-
-/* Success Button Override */
-.btn-success {
-  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%) !important;
-  border: none !important;
-  border-radius: var(--radius-sm) !important;
-  font-weight: 600 !important;
-  box-shadow: 0 4px 15px rgba(0, 212, 161, 0.25) !important;
-  transition: all 0.25s ease !important;
   color: #fff !important;
 }
 
-.btn-success:hover {
-  transform: translateY(-2px) !important;
-  box-shadow: 0 6px 20px rgba(0, 212, 161, 0.4) !important;
-  filter: brightness(1.05);
+/* ── Alert boxes ── */
+[data-theme="dark"] .alert-info {
+  background-color: rgba(79, 70, 229, 0.15) !important;
+  border-color: rgba(79, 70, 229, 0.25) !important;
+  color: #a5b4fc !important;
 }
 
-.btn-success:active {
-  transform: translateY(0) !important;
+[data-theme="dark"] .alert-warning {
+  background-color: rgba(245, 158, 11, 0.15) !important;
+  border-color: rgba(245, 158, 11, 0.25) !important;
+  color: #fcd34d !important;
 }
 
-/* ── TABLE OVERRIDES ── */
-.table {
-  --bs-table-bg: var(--bg-card) !important;
-  --bs-table-color: var(--text) !important;
-  --bs-table-border-color: var(--border) !important;
-  --bs-table-hover-bg: var(--bg-card2) !important;
-  border-radius: var(--radius-sm) !important;
-  overflow: hidden;
-  border: 1px solid var(--border) !important;
+[data-theme="dark"] .alert-danger {
+  background-color: rgba(239, 68, 68, 0.15) !important;
+  border-color: rgba(239, 68, 68, 0.25) !important;
+  color: #fca5a5 !important;
 }
 
-.table th {
-  background: var(--bg-card2) !important;
-  color: var(--text-muted) !important;
-  font-family: 'Syne', sans-serif;
-  text-transform: uppercase;
-  font-size: 0.8rem;
-  letter-spacing: 0.5px;
-  font-weight: 700;
-  border-bottom: 2px solid var(--border) !important;
-  padding: 14px 18px !important;
+[data-theme="dark"] .alert-success {
+  background-color: rgba(16, 185, 129, 0.15) !important;
+  border-color: rgba(16, 185, 129, 0.25) !important;
+  color: #6ee7b7 !important;
 }
 
-.table td {
-  padding: 14px 18px !important;
-  vertical-align: middle !important;
-  border-bottom: 1px solid var(--border) !important;
+/* ── Form labels (small, label tags) ── */
+label, .form-label, small {
+  color: var(--text-muted);
 }
 
-/* ── TAB OVERRIDES ── */
-.nav-tabs {
-  border-bottom: 2px solid var(--border) !important;
-  gap: 10px;
-}
-
-.nav-tabs .nav-link {
-  border: none !important;
-  background: transparent !important;
-  color: var(--text-muted) !important;
-  font-weight: 600;
-  font-size: 0.95rem;
-  padding: 10px 20px !important;
-  border-radius: var(--radius-sm) var(--radius-sm) 0 0 !important;
-  position: relative;
-  transition: all 0.3s ease;
-}
-
-.nav-tabs .nav-link:hover {
+/* ── Select2 / native select text visibility ── */
+select option {
+  background-color: var(--bg-card) !important;
   color: var(--text) !important;
 }
 
-.nav-tabs .nav-link.active {
-  color: var(--primary) !important;
-  background: transparent !important;
+/* ── Scrollbar thin styling across app ── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
 }
-
-.nav-tabs .nav-link.active::after {
-  content: "";
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-  border-radius: 99px;
+::-webkit-scrollbar-track {
+  background: var(--bg);
 }
-
-/* ── MODAL OVERRIDES ── */
-.modal-content {
-  background: var(--bg-card) !important;
-  border: 1px solid var(--border) !important;
-  border-radius: var(--radius) !important;
-  box-shadow: 0 10px 40px rgba(15, 23, 42, 0.08) !important;
-  color: var(--text) !important;
-}
-
-.modal-header {
-  border-bottom: 1px solid var(--border) !important;
-  padding: 20px 24px !important;
-}
-
-.modal-footer {
-  border-top: 1px solid var(--border) !important;
-  padding: 16px 24px !important;
-}
-
-/* ── STOCK & STATUS BADGES ── */
-.badge {
-  font-weight: 700 !important;
-  text-transform: uppercase;
-  font-size: 0.72rem !important;
-  letter-spacing: 0.5px;
-  padding: 6px 12px !important;
-  border-radius: 6px !important;
-}
-
-.bg-danger {
-  background-color: rgba(255, 77, 109, 0.15) !important;
-  color: var(--danger) !important;
-  border: 1px solid rgba(255, 77, 109, 0.3) !important;
-}
-
-.bg-warning {
-  background-color: rgba(255, 182, 39, 0.15) !important;
-  color: var(--warning) !important;
-  border: 1px solid rgba(255, 182, 39, 0.3) !important;
-}
-
-.bg-success {
-  background-color: rgba(0, 212, 161, 0.15) !important;
-  color: var(--accent) !important;
-  border: 1px solid rgba(0, 212, 161, 0.3) !important;
-}
-
-/* ─────────────────────────────────────────
-   SKELETON LOADER
-───────────────────────────────────────── */
-.skeleton-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  overflow: hidden;
-}
-
-.skeleton-image {
-  width: 100%;
-  height: 200px;
-}
-
-.skeleton-body {
-  padding: 1rem;
-}
-
-.skeleton-line {
+::-webkit-scrollbar-thumb {
+  background: var(--border);
   border-radius: 6px;
-  display: block;
-  margin-bottom: 4px;
 }
-
-.skeleton-shimmer {
-  background: linear-gradient(
-    90deg,
-    var(--bg-card2) 25%,
-    rgba(148, 163, 184, 0.12) 50%,
-    var(--bg-card2) 75%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 1.6s infinite linear;
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
 }
-
-@keyframes shimmer {
-  0%   { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-
-/* ─────────────────────────────────────────
-   PAGE FADE-IN ANIMATION
-───────────────────────────────────────── */
-.animate-fade-in {
-  animation: fadeInUp 0.45s ease both;
-}
-
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-

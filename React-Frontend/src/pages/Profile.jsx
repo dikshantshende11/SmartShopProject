@@ -1,16 +1,30 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { updateUserProfile } from "../services/authService";
 import { fetchAllOrders } from "../services/orderService";
 import { setUser } from "../features/auth/authSlice";
 import "../styles/profile.css";
 import "../styles/auth.css";
 
+const AVATAR_OPTIONS = [
+  { emoji: "🧑‍💻", label: "Tech Pro" },
+  { emoji: "⚡", label: "Power Shopper" },
+  { emoji: "👑", label: "VIP Collector" },
+  { emoji: "🚀", label: "Innovator" },
+  { emoji: "🛍️", label: "Fashionista" },
+  { emoji: "🎮", label: "Gamer Pro" },
+  { emoji: "🌟", label: "Trendsetter" },
+  { emoji: "💎", label: "Elite Member" },
+];
+
 function Profile() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  
   const { user, isAuthenticated } = useSelector((state) => state.auth);
+  const cartItems = useSelector((state) => state.cart.items);
+  const wishlistItems = useSelector((state) => state.wishlist.items);
 
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
@@ -22,6 +36,10 @@ function Profile() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [saving, setSaving] = useState(false);
+
+  const [avatar, setAvatar] = useState(() => {
+    return localStorage.getItem(`avatar_${user?.id}`) || "🧑‍💻";
+  });
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -45,6 +63,11 @@ function Profile() {
   if (!isAuthenticated || !user) {
     return null;
   }
+
+  const handleAvatarSelect = (emoji) => {
+    setAvatar(emoji);
+    localStorage.setItem(`avatar_${user.id}`, emoji);
+  };
 
   const handleEditClick = () => {
     setFormData({
@@ -116,50 +139,102 @@ function Profile() {
   };
 
   return (
-    <div className="ss-page">
+    <div className="ss-page animate-fade-in">
       <div className="container">
         <div className="ss-profile-container">
-          <div className="mb-4">
+          
+          {/* HEADER TITLE */}
+          <div className="mb-4 text-center">
             <h1 className="ss-page-title">
               User <span>Profile</span>
             </h1>
             <p className="ss-page-subtitle">
-              Manage your personal information and view account history.
+              Manage your personal information, customized avatar, and account metrics.
             </p>
           </div>
 
-          <div className="ss-profile-card">
+          {/* MAIN PROFILE CARD */}
+          <div className="ss-profile-card shadow-lg">
             {error && <div className="ss-alert ss-alert-danger">{error}</div>}
             {success && <div className="ss-alert ss-alert-success">{success}</div>}
 
             {!isEditing ? (
               <div>
+                {/* HERO HEADER & AVATAR */}
                 <div className="text-center mb-4">
-                  <div className="ss-avatar-wrap">
-                    <div className="ss-profile-avatar">
-                      {user.name ? user.name.charAt(0).toUpperCase() : "U"}
+                  <div className="ss-avatar-wrap position-relative mx-auto">
+                    <div className="ss-profile-avatar-emoji">
+                      {avatar}
+                    </div>
+                    <span className="online-badge-dot" title="Active Account"></span>
+                  </div>
+                  <h3 className="ss-profile-name mt-2 mb-1">{user.name}</h3>
+                  <div className="d-flex align-items-center justify-content-center gap-2">
+                    <span className="ss-profile-role-badge">
+                      {user.role?.toUpperCase() || "CUSTOMER"}
+                    </span>
+                    <span className="text-muted" style={{ fontSize: "0.8rem" }}>
+                      • Member since 2026
+                    </span>
+                  </div>
+                </div>
+
+                {/* AVATAR PICKER */}
+                <div className="avatar-picker-section mb-4 p-3 rounded text-center">
+                  <label className="d-block mb-2 text-muted fw-bold" style={{ fontSize: "0.82rem" }}>
+                    SELECT YOUR AVATAR STYLE
+                  </label>
+                  <div className="d-flex flex-wrap justify-content-center gap-2">
+                    {AVATAR_OPTIONS.map((item) => (
+                      <button
+                        key={item.emoji}
+                        type="button"
+                        className={`avatar-option-btn ${avatar === item.emoji ? "active" : ""}`}
+                        onClick={() => handleAvatarSelect(item.emoji)}
+                        title={item.label}
+                      >
+                        {item.emoji}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* 4 METRICS CARDS GRID */}
+                <div className="row g-3 mb-4">
+                  <div className="col-6 col-md-3">
+                    <div className="metric-card p-3 text-center rounded">
+                      <div className="metric-icon">📦</div>
+                      <div className="metric-val">{orderCount}</div>
+                      <div className="metric-lbl">Orders Placed</div>
                     </div>
                   </div>
-                  <h3 className="ss-profile-name mb-0">{user.name}</h3>
-                  <div className="ss-profile-role-badge">
-                    {user.role?.toUpperCase() || "CUSTOMER"}
+                  <div className="col-6 col-md-3">
+                    <div className="metric-card p-3 text-center rounded">
+                      <div className="metric-icon">❤️</div>
+                      <div className="metric-val">{wishlistItems.length}</div>
+                      <div className="metric-lbl">Saved Wishlist</div>
+                    </div>
+                  </div>
+                  <div className="col-6 col-md-3">
+                    <div className="metric-card p-3 text-center rounded">
+                      <div className="metric-icon">🛒</div>
+                      <div className="metric-val">{cartItems.length}</div>
+                      <div className="metric-lbl">Cart Items</div>
+                    </div>
+                  </div>
+                  <div className="col-6 col-md-3">
+                    <div className="metric-card p-3 text-center rounded">
+                      <div className="metric-icon">🛡️</div>
+                      <div className="metric-val" style={{ fontSize: "1.1rem", color: "var(--primary)" }}>
+                        {user.role?.toUpperCase() === "ADMIN" ? "Admin" : "Verified"}
+                      </div>
+                      <div className="metric-lbl">Account Status</div>
+                    </div>
                   </div>
                 </div>
 
-                <div className="ss-profile-stats">
-                  <div className="ss-stat-item">
-                    <span className="ss-stat-val">{orderCount}</span>
-                    <span className="ss-stat-lbl">Orders Placed</span>
-                  </div>
-                  <div className="ss-stat-item">
-                    <span className="ss-stat-val" style={{ color: "var(--primary)" }}>
-                      {user.role?.toUpperCase() === "ADMIN" ? "Admin" : "Standard"}
-                    </span>
-                    <span className="ss-stat-lbl">Access Level</span>
-                  </div>
-                </div>
-
-                <div className="ss-profile-info">
+                {/* USER ACCOUNT DETAILS */}
+                <div className="ss-profile-info mb-4">
                   <div className="ss-info-row">
                     <span className="ss-info-label">User ID</span>
                     <span className="ss-info-value">#{user.id}</span>
@@ -174,25 +249,31 @@ function Profile() {
                   </div>
                 </div>
 
-                <div className="text-center mt-4">
-                  <button onClick={handleEditClick} className="ss-btn-primary" style={{ maxWidth: "200px" }}>
-                    Edit Profile
+                {/* QUICK SHORTCUT ACTIONS */}
+                <div className="d-flex flex-wrap justify-content-center gap-3">
+                  <button onClick={handleEditClick} className="ss-btn-primary">
+                    ✏️ Edit Profile
                   </button>
+                  <Link to="/orders" className="btn btn-outline-primary fw-bold" style={{ borderRadius: "10px", padding: "0.65rem 1.25rem" }}>
+                    📜 My Orders
+                  </Link>
+                  <Link to="/wishlist" className="btn btn-outline-primary fw-bold" style={{ borderRadius: "10px", padding: "0.65rem 1.25rem" }}>
+                    ❤️ My Wishlist
+                  </Link>
                 </div>
+
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="ss-profile-edit-form">
                 <div className="text-center mb-4">
-                  <div className="ss-avatar-wrap">
-                    <div className="ss-profile-avatar">
-                      {formData.name ? formData.name.charAt(0).toUpperCase() : "U"}
-                    </div>
+                  <div className="ss-profile-avatar-emoji mx-auto mb-2">
+                    {avatar}
                   </div>
-                  <h4 className="mt-3 text-muted">Editing Profile</h4>
+                  <h4 className="mt-2 text-muted fw-bold">Editing Profile Details</h4>
                 </div>
 
-                <div className="ss-form-group">
-                  <label className="ss-form-label">Full Name</label>
+                <div className="ss-form-group mb-3">
+                  <label className="ss-form-label fw-bold">Full Name</label>
                   <input
                     type="text"
                     name="name"
@@ -205,8 +286,8 @@ function Profile() {
                   />
                 </div>
 
-                <div className="ss-form-group">
-                  <label className="ss-form-label">Email Address</label>
+                <div className="ss-form-group mb-3">
+                  <label className="ss-form-label fw-bold">Email Address</label>
                   <input
                     type="email"
                     name="email"
@@ -219,8 +300,8 @@ function Profile() {
                   />
                 </div>
 
-                <div className="ss-form-group">
-                  <label className="ss-form-label">New Password (Leave blank to keep current)</label>
+                <div className="ss-form-group mb-4">
+                  <label className="ss-form-label fw-bold">New Password (Leave blank to keep current)</label>
                   <input
                     type="password"
                     name="password"
@@ -232,7 +313,7 @@ function Profile() {
                   />
                 </div>
 
-                <div className="ss-edit-actions">
+                <div className="ss-edit-actions d-flex justify-content-center gap-3">
                   <button
                     type="button"
                     onClick={handleCancelClick}

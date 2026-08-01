@@ -1,8 +1,73 @@
-.register-card{
-    max-width:500px;
-    margin:auto;
-    padding:30px;
-    background:white;
-    border-radius:12px;
-    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+/* ============================================
+   SMARTSHOP — REGISTER PAGE EXTRA STYLES
+   ============================================ */
+
+/* ── Input Wrapper (for eye icon) ── */
+.ss-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.ss-input-wrap .ss-form-control {
+  padding-right: 2.75rem;
+}
+
+/* ── Show/Hide Eye Button ── */
+.ss-eye-btn {
+  position: absolute;
+  right: 10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 4px;
+  line-height: 1;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  user-select: none;
+}
+
+.ss-eye-btn:hover {
+  opacity: 1;
+}
+
+/* ── Password Strength Bar ── */
+.ss-strength-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.ss-strength-bar {
+  display: flex;
+  gap: 4px;
+  flex: 1;
+}
+
+.ss-strength-seg {
+  height: 4px;
+  flex: 1;
+  border-radius: 99px;
+  transition: background 0.3s ease;
+}
+
+.ss-strength-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+  min-width: 54px;
+  text-align: right;
+}
+
+/* ── Confirm Password Input States ── */
+.ss-input-error {
+  border-color: #EF4444 !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12) !important;
+}
+
+.ss-input-success {
+  border-color: #10B981 !important;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12) !important;
 }

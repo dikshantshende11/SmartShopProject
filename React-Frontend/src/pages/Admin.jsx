@@ -318,84 +318,89 @@ function Admin() {
         </div>
       </div>
 
-      {/* Metrics Bar */}
-      <div className="row g-4 mb-4">
-        <div className="col-md-4">
-          <div
-            className="card p-4 text-center"
-            style={{
-              background: "var(--bg-card)",
-              border: "1px solid var(--border)",
-              borderRadius: "var(--radius)",
-            }}
-          >
-            <small
-              className="text-uppercase fw-bold"
-              style={{
-                fontSize: "0.72rem",
-                color: "var(--text-dim)",
-                letterSpacing: "0.05em",
-              }}
-            >
+      {/* 4 KPI SUMMARY CARDS GRID */}
+      <div className="row g-3 mb-4">
+        <div className="col-md-3 col-6">
+          <div className="card p-3 text-center" style={{ background: "var(--bg-card)", border: "1px solid var(--border)" }}>
+            <div style={{ fontSize: "1.6rem" }}>📋</div>
+            <small className="text-uppercase fw-bold text-muted" style={{ fontSize: "0.7rem", letterSpacing: "0.5px" }}>
               Total Orders
             </small>
-            <h2 className="mt-2 fw-bold" style={{ color: "var(--text)" }}>
+            <h3 className="mt-1 fw-bold mb-0" style={{ color: "var(--text)" }}>
               {orders.length}
-            </h2>
+            </h3>
+            <span className="small text-success mt-1" style={{ fontSize: "0.75rem", fontWeight: "600" }}>
+              {orders.filter(o => o.status === "DELIVERED" || o.status === "PLACED").length} Active
+            </span>
           </div>
         </div>
-        <div className="col-md-4">
-          <div
-            className="card p-4 text-center"
-            style={{
-              background: "var(--bg-card)",
-              border: "1px solid var(--border)",
-              borderRadius: "var(--radius)",
-            }}
-          >
-            <small
-              className="text-uppercase fw-bold"
-              style={{
-                fontSize: "0.72rem",
-                color: "var(--text-dim)",
-                letterSpacing: "0.05em",
-              }}
-            >
+
+        <div className="col-md-3 col-6">
+          <div className="card p-3 text-center" style={{ background: "var(--bg-card)", border: "1px solid var(--border)" }}>
+            <div style={{ fontSize: "1.6rem" }}>💰</div>
+            <small className="text-uppercase fw-bold text-muted" style={{ fontSize: "0.7rem", letterSpacing: "0.5px" }}>
               Total Revenue
             </small>
-            <h2 className="mt-2 fw-bold" style={{ color: "var(--accent)" }}>
-              ₹{" "}
-              {orders
-                .reduce((sum, o) => sum + (o.totalAmount || 0), 0)
-                .toLocaleString()}
-            </h2>
+            <h3 className="mt-1 fw-bold mb-0" style={{ color: "var(--accent)" }}>
+              ₹ {orders.reduce((sum, o) => sum + (o.totalAmount || 0), 0).toLocaleString()}
+            </h3>
+            <span className="small text-muted mt-1" style={{ fontSize: "0.75rem" }}>
+              Avg: ₹ {orders.length ? Math.round(orders.reduce((sum, o) => sum + (o.totalAmount || 0), 0) / orders.length).toLocaleString() : 0}
+            </span>
           </div>
         </div>
-        <div className="col-md-4">
-          <div
-            className="card p-4 text-center"
-            style={{
-              background: "var(--bg-card)",
-              border: "1px solid var(--border)",
-              borderRadius: "var(--radius)",
-            }}
-          >
-            <small
-              className="text-uppercase fw-bold"
-              style={{
-                fontSize: "0.72rem",
-                color: "var(--text-dim)",
-                letterSpacing: "0.05em",
-              }}
-            >
-              Total Products
+
+        <div className="col-md-3 col-6">
+          <div className="card p-3 text-center" style={{ background: "var(--bg-card)", border: "1px solid var(--border)" }}>
+            <div style={{ fontSize: "1.6rem" }}>📦</div>
+            <small className="text-uppercase fw-bold text-muted" style={{ fontSize: "0.7rem", letterSpacing: "0.5px" }}>
+              Catalog Items
             </small>
-            <h2 className="mt-2 fw-bold" style={{ color: "var(--primary)" }}>
+            <h3 className="mt-1 fw-bold mb-0" style={{ color: "var(--primary)" }}>
               {products.length}
-            </h2>
+            </h3>
+            <span className={`small mt-1 fw-bold ${products.filter(p => p.stock <= 5).length > 0 ? "text-danger" : "text-success"}`} style={{ fontSize: "0.75rem" }}>
+              {products.filter(p => p.stock <= 5).length} Low Stock
+            </span>
+          </div>
+        </div>
+
+        <div className="col-md-3 col-6">
+          <div className="card p-3 text-center" style={{ background: "var(--bg-card)", border: "1px solid var(--border)" }}>
+            <div style={{ fontSize: "1.6rem" }}>👥</div>
+            <small className="text-uppercase fw-bold text-muted" style={{ fontSize: "0.7rem", letterSpacing: "0.5px" }}>
+              Registered Users
+            </small>
+            <h3 className="mt-1 fw-bold mb-0" style={{ color: "var(--warning)" }}>
+              {users.length}
+            </h3>
+            <span className="small text-muted mt-1" style={{ fontSize: "0.75rem" }}>
+              {users.filter(u => u.role?.toUpperCase() === "ADMIN").length} Admins
+            </span>
           </div>
         </div>
       </div>
+
+      {/* LOW STOCK INVENTORY WARNING BANNER */}
+      {products.filter((p) => p.stock <= 5).length > 0 && (
+        <div className="alert alert-warning d-flex align-items-center justify-content-between mb-4 shadow-sm" style={{ borderRadius: "var(--radius-sm)", borderLeft: "4px solid var(--warning)" }}>
+          <div className="d-flex align-items-center gap-2">
+            <span style={{ fontSize: "1.3rem" }}>⚠️</span>
+            <div>
+              <strong className="d-block">Low Stock Inventory Alert!</strong>
+              <small className="text-muted">
+                {products.filter((p) => p.stock <= 5).length} product(s) have 5 or fewer items remaining in stock ({products.filter((p) => p.stock <= 5).map(p => p.name).join(", ")}).
+              </small>
+            </div>
+          </div>
+          <button
+            className="btn btn-sm btn-outline-dark fw-bold"
+            onClick={() => setActiveTab("products")}
+          >
+            Manage Catalog
+          </button>
+        </div>
+      )}
 
       {/* Feedback */}
       {error && <div className="alert alert-danger">{error}</div>}

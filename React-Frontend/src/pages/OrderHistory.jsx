@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchAllOrders, cancelOrder } from "../services/orderService";
 import { fetchAllProducts } from "../services/productService";
+import InvoiceModal from "../components/InvoiceModal/InvoiceModal";
 import "../styles/orders.css";
 
 function OrderHistory() {
@@ -14,6 +15,7 @@ function OrderHistory() {
   const [success, setSuccess] = useState("");
   const [confirmingCancelId, setConfirmingCancelId] = useState(null);
   const [cancellingId, setCancellingId] = useState(null);
+  const [invoiceOrder, setInvoiceOrder] = useState(null);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -247,7 +249,23 @@ function OrderHistory() {
                       <span>₹{order.totalAmount?.toLocaleString()}</span>
                     </div>
 
-                    <div className="text-end">
+                    <div className="text-end d-flex flex-column align-items-end gap-2">
+                      {/* DOWNLOAD INVOICE BUTTON */}
+                      <button
+                        onClick={() => setInvoiceOrder(order)}
+                        className="btn btn-sm fw-bold"
+                        style={{
+                          background: "linear-gradient(135deg, #4F46E5 0%, #10B981 100%)",
+                          color: "#fff",
+                          borderRadius: "8px",
+                          fontSize: "0.78rem",
+                          padding: "0.35rem 0.9rem",
+                          border: "none",
+                          boxShadow: "0 3px 10px rgba(79,70,229,0.3)",
+                        }}
+                      >
+                        📄 Invoice
+                      </button>
                       {isCancelable && confirmingCancelId !== order.id && (
                         <button
                           onClick={() => handleCancelClick(order.id)}
@@ -289,6 +307,16 @@ function OrderHistory() {
               );
             })}
           </div>
+        )}
+
+        {/* INVOICE MODAL */}
+        {invoiceOrder && (
+          <InvoiceModal
+            order={invoiceOrder}
+            product={invoiceOrder.product}
+            user={user}
+            onClose={() => setInvoiceOrder(null)}
+          />
         )}
       </div>
     </div>

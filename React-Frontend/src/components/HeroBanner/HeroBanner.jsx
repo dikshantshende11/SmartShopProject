@@ -10,21 +10,19 @@ const HERO_SLIDES = [
     title: "Discover Premium Tech Devices",
     desc: "Experience high-end sound, cutting-edge displays, and elegant wearables curated for your lifestyle.",
     btnText: "Explore Tech",
-    badgeColor: "rgba(79, 70, 229, 0.08)",
-    badgeText: "#4F46E5",
+    badgeClass: "badge-electronics",
     image: heroElectronics,
-    glowColor: "rgba(79, 70, 229, 0.14)",
-    themeGrad: "linear-gradient(135deg, #4F46E5 0%, #10B981 100%)"
+    glowColor: "rgba(99, 102, 241, 0.3)",
+    themeGrad: "linear-gradient(135deg, #6366F1 0%, #10B981 100%)"
   },
   {
     tag: "👗 FASHION & APPAREL",
     title: "Trending Styles & Clothes Collection",
     desc: "Elevate your look with our modern outfits, designer apparel, footwear, and casual essentials.",
     btnText: "Shop Clothes",
-    badgeColor: "rgba(236, 72, 153, 0.08)",
-    badgeText: "#EC4899",
+    badgeClass: "badge-fashion",
     image: heroClothes,
-    glowColor: "rgba(236, 72, 153, 0.14)",
+    glowColor: "rgba(236, 72, 153, 0.3)",
     themeGrad: "linear-gradient(135deg, #EC4899 0%, #F59E0B 100%)"
   },
   {
@@ -32,10 +30,9 @@ const HERO_SLIDES = [
     title: "Fresh & Healthy Foods Delivered",
     desc: "Savor fresh organic fruits, green vegetables, juices, and premium daily groceries delivered straight to you.",
     btnText: "Order Foods",
-    badgeColor: "rgba(16, 185, 129, 0.08)",
-    badgeText: "#10B981",
+    badgeClass: "badge-foods",
     image: heroFoods,
-    glowColor: "rgba(16, 185, 129, 0.14)",
+    glowColor: "rgba(16, 185, 129, 0.3)",
     themeGrad: "linear-gradient(135deg, #10B981 0%, #3B82F6 100%)"
   }
 ];
@@ -58,10 +55,7 @@ function HeroBanner() {
       <div className="row align-items-center">
         {/* Left Column: Content */}
         <div className="col-lg-6 ss-hero-content animate-fade-in" key={currentSlide}>
-          <span 
-            className="ss-hero-badge"
-            style={{ backgroundColor: slide.badgeColor, color: slide.badgeText }}
-          >
+          <span className={`ss-hero-badge ${slide.badgeClass}`}>
             {slide.tag}
           </span>
           <h1 className="ss-hero-title">
@@ -107,7 +101,7 @@ function HeroBanner() {
             {/* Soft decorative visual elements */}
             <div 
               className="ss-hero-circle-glow"
-              style={{ background: `radial-gradient(circle, ${slide.glowColor} 0%, transparent 65%)` }}
+              style={{ background: `radial-gradient(circle, ${slide.glowColor} 0%, transparent 70%)` }}
             ></div>
           </div>
         </div>
@@ -119,7 +113,6 @@ function HeroBanner() {
           <button
             key={index}
             className={`ss-hero-dot ${index === currentSlide ? "active" : ""}`}
-            style={{ backgroundColor: index === currentSlide ? slide.badgeText : "var(--text-dim)" }}
             onClick={() => setCurrentSlide(index)}
             aria-label={`Go to slide ${index + 1}`}
           />
