@@ -1,6 +1,6 @@
 import axiosInstance from "../api/axiosConfig";
 
-const PROD_PRODUCT_URL = "https://smartshopproject-production-0cfb.up.railway.app";
+const PROD_PRODUCT_URL = "https://smartshop-product-service.up.railway.app";
 
 const FALLBACK_PRODUCTS = [
   { id: 1, name: "iPhone 15 Pro", brand: "Apple", category: "Mobiles", description: "Super Retina XDR display, Titanium design, A17 Pro chip.", price: 129000, rating: 4.8, reviewCount: 245, stock: 50, imageUrl: "/images/iphone15.png", available: true },
