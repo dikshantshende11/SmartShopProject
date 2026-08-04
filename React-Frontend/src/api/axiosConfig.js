@@ -3,9 +3,9 @@ import axios from "axios";
 // =============================================
 // PRODUCTION: Railway Cloud Backend Services
 // =============================================
-const PROD_USER_URL    = "https://smartshop-user-service.up.railway.app";
-const PROD_PRODUCT_URL = "https://smartshop-product-service.up.railway.app";
-const PROD_ORDER_URL   = "https://smartshop-order-service.up.railway.app";
+const PROD_USER_URL    = "https://smartshop-user-service.onrender.com";
+const PROD_PRODUCT_URL = "https://smartshop-product-service.onrender.com";
+const PROD_ORDER_URL   = "https://smartshop-order-service.onrender.com";
 
 const axiosInstance = axios.create({
   timeout: 20000,
