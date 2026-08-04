@@ -3,7 +3,7 @@ import axios from "axios";
 // =============================================
 // PRODUCTION: Railway Cloud Backend Services
 // =============================================
-const PROD_USER_URL    = "https://smartshopproject-production.up.railway.app";
+const PROD_USER_URL    = "https://genuine-emotion-production-0ca4.up.railway.app";
 const PROD_PRODUCT_URL = "https://smartshopproject-production-0cfb.up.railway.app";
 const PROD_ORDER_URL   = "https://affectionate-enthusiasm-production-4d16.up.railway.app";
 
