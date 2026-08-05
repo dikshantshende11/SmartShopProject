@@ -87,7 +87,9 @@ function Login() {
       localStorage.removeItem("token");
 
       let errMsg = "Login failed. Please check your credentials or network connection.";
-      if (err.code === "ECONNABORTED" || err.message?.includes("Network Error")) {
+      if (err.code === "ECONNABORTED") {
+        errMsg = "⚠️ Backend server is spinning up. Please wait 10 seconds and click Login again!";
+      } else if (err.message?.includes("Network Error")) {
         errMsg = "⚠️ Network error. Please check your internet connection and try again.";
       } else if (err.response?.data) {
         if (typeof err.response.data === "string") {

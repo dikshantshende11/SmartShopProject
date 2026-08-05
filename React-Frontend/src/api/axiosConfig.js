@@ -8,7 +8,7 @@ const PROD_PRODUCT_URL = "https://smartshop-product-service.onrender.com";
 const PROD_ORDER_URL   = "https://smartshop-order-service.onrender.com";
 
 const axiosInstance = axios.create({
-  timeout: 20000,
+  timeout: 60000, // 60s timeout for Render free tier cold starts
   headers: {
     "Content-Type": "application/json",
   },
