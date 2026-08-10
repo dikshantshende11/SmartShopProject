@@ -1,14 +1,14 @@
 import axios from "axios";
 
 // =============================================
-// PRODUCTION: Railway Cloud Backend Services
+// PRODUCTION: Render Cloud Backend Services
 // =============================================
 const PROD_USER_URL    = "https://smartshop-user-service.onrender.com";
 const PROD_PRODUCT_URL = "https://smartshop-product-service.onrender.com";
 const PROD_ORDER_URL   = "https://smartshop-order-service.onrender.com";
 
 const axiosInstance = axios.create({
-  timeout: 60000, // 60s timeout for Render free tier cold starts
+  timeout: 30000,
   headers: {
     "Content-Type": "application/json",
   },
