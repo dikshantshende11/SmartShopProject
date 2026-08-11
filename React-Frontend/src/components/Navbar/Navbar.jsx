@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../features/auth/authSlice";
 import { fetchAllProducts } from "../../services/productService";
@@ -8,6 +8,7 @@ import "../../styles/navbar.css";
 function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const cartItems = useSelector((state) => state.cart.items);
   const wishlistItems = useSelector((state) => state.wishlist.items);
   const { user, isAuthenticated } = useSelector((state) => state.auth);
@@ -18,9 +19,11 @@ function Navbar() {
   const [suggestions, setSuggestions] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const searchRef = useRef(null);
+  const mobileSearchRef = useRef(null);
 
   // Sidebar Drawer State
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
 
   // Theme Toggle State
   const [theme, setTheme] = useState(() => {
@@ -50,7 +53,10 @@ function Navbar() {
   // Close search dropdown on outside click
   useEffect(() => {
     const handleClick = (e) => {
-      if (searchRef.current && !searchRef.current.contains(e.target)) {
+      if (
+        searchRef.current && !searchRef.current.contains(e.target) &&
+        mobileSearchRef.current && !mobileSearchRef.current.contains(e.target)
+      ) {
         setShowDropdown(false);
       }
     };
@@ -141,13 +147,13 @@ function Navbar() {
           </div>
 
           {/* SEARCH BAR & RIGHT ICONS WITH CLEAN TIED SPACING */}
-          <div className="d-flex align-items-center gap-3 gap-md-4 flex-grow-1 justify-content-end ms-3 ms-md-4">
+          <div className="d-flex align-items-center gap-2 gap-md-3 flex-grow-1 justify-content-end ms-2 ms-md-4">
             
-            {/* SEARCH BAR */}
+            {/* DESKTOP SEARCH BAR */}
             <div
               ref={searchRef}
-              className="search-container d-none d-sm-block flex-grow-1"
-              style={{ maxWidth: "460px", position: "relative" }}
+              className="search-container d-none d-md-block flex-grow-1"
+              style={{ maxWidth: "440px", position: "relative" }}
             >
               <form onSubmit={handleSearchSubmit} className="search-box w-100">
                 <input
@@ -195,9 +201,29 @@ function Navbar() {
               )}
             </div>
 
-            {/* WISHLIST ICON BUTTON */}
-            <Link to="/wishlist" className="ss-nav-icon-btn position-relative ms-2" title="Saved Wishlist">
-              <span style={{ fontSize: "1.2rem" }}>❤️</span>
+            {/* MOBILE SEARCH TOGGLE BUTTON */}
+            <button
+              className="ss-nav-icon-btn d-md-none"
+              onClick={() => setIsMobileSearchOpen((prev) => !prev)}
+              title="Search Products"
+              aria-label="Toggle Search"
+            >
+              <span>🔍</span>
+            </button>
+
+            {/* THEME TOGGLE ICON (DESKTOP & MOBILE) */}
+            <button
+              className="ss-nav-icon-btn ss-theme-toggle-btn"
+              onClick={toggleTheme}
+              title={`Switch to ${theme === "light" ? "Dark" : "Light"} Mode`}
+              aria-label="Toggle Color Theme"
+            >
+              <span>{theme === "light" ? "🌙" : "☀️"}</span>
+            </button>
+
+            {/* WISHLIST ICON BUTTON (DESKTOP) */}
+            <Link to="/wishlist" className="ss-nav-icon-btn position-relative d-none d-sm-inline-flex" title="Saved Wishlist">
+              <span style={{ fontSize: "1.15rem" }}>❤️</span>
               {wishlistItems.length > 0 && (
                 <span className="nav-icon-badge bg-danger">{wishlistItems.length}</span>
               )}
@@ -205,7 +231,7 @@ function Navbar() {
 
             {/* CART ICON BUTTON */}
             <Link to="/cart" className="ss-nav-icon-btn position-relative" title="Shopping Cart">
-              <span style={{ fontSize: "1.2rem" }}>🛒</span>
+              <span style={{ fontSize: "1.15rem" }}>🛒</span>
               {cartItems.length > 0 && (
                 <span className="nav-icon-badge bg-primary">{cartItems.length}</span>
               )}
@@ -224,6 +250,63 @@ function Navbar() {
             )}
           </div>
         </div>
+
+        {/* EXPANDABLE MOBILE SEARCH ROW */}
+        {isMobileSearchOpen && (
+          <div className="ss-mobile-search-bar px-3 pt-2 pb-3 d-md-none border-top" ref={mobileSearchRef}>
+            <form onSubmit={handleSearchSubmit} className="search-box w-100 position-relative">
+              <input
+                type="text"
+                placeholder="Search products, brands..."
+                className="search-input"
+                value={searchQuery}
+                onChange={handleSearchChange}
+                onFocus={() => suggestions.length > 0 && setShowDropdown(true)}
+                autoComplete="off"
+                autoFocus
+              />
+            </form>
+
+            {/* Mobile Suggestions Dropdown */}
+            {showDropdown && (
+              <div className="search-suggestions search-suggestions-mobile mt-2">
+                {suggestions.map((product) => (
+                  <div
+                    key={product.id}
+                    className="suggestion-item"
+                    onClick={() => {
+                      handleSuggestionClick(product);
+                      setIsMobileSearchOpen(false);
+                    }}
+                  >
+                    <img
+                      src={product.imageUrl}
+                      alt={product.name}
+                      className="suggestion-img"
+                      onError={(e) => { e.target.style.display = "none"; }}
+                    />
+                    <div className="suggestion-info">
+                      <span className="suggestion-name">{product.name}</span>
+                      <span className="suggestion-meta">
+                        {product.brand} · {product.category}
+                      </span>
+                    </div>
+                    <span className="suggestion-price">₹{product.price?.toLocaleString()}</span>
+                  </div>
+                ))}
+                <div
+                  className="suggestion-view-all"
+                  onClick={(e) => {
+                    handleSearchSubmit(e);
+                    setIsMobileSearchOpen(false);
+                  }}
+                >
+                  🔍 See all results for "<strong>{searchQuery}</strong>"
+                </div>
+              </div>
+            )}
+          </div>
+        )}
       </nav>
 
       {/* SIDEBAR DRAWER OVERLAY */}
@@ -368,6 +451,55 @@ function Navbar() {
           </div>
         )}
       </div>
+
+      {/* ── MOBILE APP-LIKE BOTTOM NAVIGATION BAR ── */}
+      <nav className="ss-mobile-bottom-nav d-md-none">
+        <Link
+          to="/"
+          className={`ss-bottom-nav-item ${location.pathname === "/" ? "active" : ""}`}
+        >
+          <span className="ss-bottom-nav-icon">🏠</span>
+          <span className="ss-bottom-nav-label">Home</span>
+        </Link>
+
+        <button
+          className="ss-bottom-nav-item ss-bottom-nav-btn"
+          onClick={() => setIsSidebarOpen(true)}
+        >
+          <span className="ss-bottom-nav-icon">☰</span>
+          <span className="ss-bottom-nav-label">Menu</span>
+        </button>
+
+        <Link
+          to="/wishlist"
+          className={`ss-bottom-nav-item position-relative ${location.pathname === "/wishlist" ? "active" : ""}`}
+        >
+          <span className="ss-bottom-nav-icon">❤️</span>
+          {wishlistItems.length > 0 && (
+            <span className="ss-bottom-nav-badge bg-danger">{wishlistItems.length}</span>
+          )}
+          <span className="ss-bottom-nav-label">Wishlist</span>
+        </Link>
+
+        <Link
+          to="/cart"
+          className={`ss-bottom-nav-item position-relative ${location.pathname === "/cart" ? "active" : ""}`}
+        >
+          <span className="ss-bottom-nav-icon">🛒</span>
+          {cartItems.length > 0 && (
+            <span className="ss-bottom-nav-badge bg-primary">{cartItems.length}</span>
+          )}
+          <span className="ss-bottom-nav-label">Cart</span>
+        </Link>
+
+        <Link
+          to={isAuthenticated ? "/profile" : "/login"}
+          className={`ss-bottom-nav-item ${location.pathname === "/profile" || location.pathname === "/login" ? "active" : ""}`}
+        >
+          <span className="ss-bottom-nav-icon">{isAuthenticated ? userAvatarEmoji : "👤"}</span>
+          <span className="ss-bottom-nav-label">{isAuthenticated ? "Profile" : "Login"}</span>
+        </Link>
+      </nav>
     </>
   );
 }

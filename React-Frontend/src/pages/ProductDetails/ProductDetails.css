@@ -402,3 +402,36 @@
     max-height: 360px;
   }
 }
+
+@media (max-width: 767.98px) {
+  .image-card {
+    padding: 1.25rem;
+  }
+  .details-image {
+    height: 240px;
+  }
+  .details-card {
+    padding: 0;
+    margin-top: 1.5rem;
+  }
+  .product-name {
+    font-size: 1.5rem;
+    letter-spacing: -0.5px;
+  }
+  .price {
+    font-size: 1.75rem;
+    margin-bottom: 0.75rem;
+  }
+  .rating-summary-card,
+  .review-form-card {
+    padding: 1.25rem 1rem;
+  }
+  .details-card .d-flex.gap-3 {
+    flex-direction: column;
+    gap: 0.65rem !important;
+  }
+  .details-card .btn-lg {
+    width: 100%;
+    justify-content: center;
+  }
+}

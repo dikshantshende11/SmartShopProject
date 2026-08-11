@@ -8,7 +8,8 @@ const CATEGORIES_DATA = [
 
 function Categories({ selectedCategory, onSelect }) {
   return (
-    <div className="d-flex justify-content-center flex-wrap mb-5" style={{ gap: "60px" }}>
+    <div className="categories-container mb-4 mb-md-5">
+      <div className="categories-scroll-track">
       {CATEGORIES_DATA.map((cat, index) => {
         const isActive = selectedCategory === cat.name;
         return (
@@ -28,6 +29,7 @@ function Categories({ selectedCategory, onSelect }) {
           </div>
         );
       })}
+      </div>
     </div>
   );
 }

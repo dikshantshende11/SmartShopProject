@@ -90,7 +90,7 @@ function HeroBanner() {
         </div>
 
         {/* Right Column: Premium Image Illustration */}
-        <div className="col-lg-6 d-none d-lg-flex ss-hero-image-wrap">
+        <div className="col-12 col-lg-6 d-flex ss-hero-image-wrap order-first order-lg-last mb-3 mb-lg-0">
           <div className="ss-hero-image-container">
             <img 
               src={slide.image} 

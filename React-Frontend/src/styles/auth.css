@@ -205,3 +205,17 @@
   border: 1px solid rgba(0, 212, 161, 0.3);
   color: var(--accent);
 }
+
+/* Mobile Auth Optimization */
+@media (max-width: 575.98px) {
+  .ss-auth-page {
+    padding: 1.5rem 1rem 5rem;
+  }
+  .ss-auth-card {
+    padding: 1.75rem 1.25rem;
+    border-radius: 18px;
+  }
+  .ss-auth-logo {
+    font-size: 1.5rem;
+  }
+}

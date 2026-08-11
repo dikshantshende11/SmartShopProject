@@ -431,3 +431,119 @@
 .suggestion-view-all:hover {
   background: var(--primary-light) !important;
 }
+
+/* ────────────────────────────────────────────────────────
+   MOBILE BOTTOM NAVIGATION BAR & MOBILE SEARCH STYLES
+──────────────────────────────────────────────────────── */
+
+.ss-mobile-search-bar {
+  background: var(--bg-card) !important;
+  animation: slide-down 0.2s ease-out;
+}
+
+@keyframes slide-down {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.search-suggestions-mobile {
+  position: static !important;
+  box-shadow: none !important;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.ss-mobile-bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  z-index: 1030;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.ss-bottom-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none !important;
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 4px 8px;
+  transition: all 0.2s ease;
+  flex: 1;
+  position: relative;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ss-bottom-nav-icon {
+  font-size: 1.35rem;
+  margin-bottom: 2px;
+  transition: transform 0.2s ease;
+}
+
+.ss-bottom-nav-item.active {
+  color: var(--primary) !important;
+}
+
+.ss-bottom-nav-item.active .ss-bottom-nav-icon {
+  transform: scale(1.15) translateY(-2px);
+}
+
+.ss-bottom-nav-item:hover {
+  color: var(--primary);
+}
+
+.ss-bottom-nav-badge {
+  position: absolute;
+  top: 2px;
+  right: calc(50% - 18px);
+  font-size: 0.6rem;
+  font-weight: 800;
+  padding: 1px 5px;
+  border-radius: 99px;
+  color: #fff;
+  border: 1.5px solid var(--bg-card);
+}
+
+/* Mobile Top Navbar Tweaks */
+@media (max-width: 575.98px) {
+  .ss-navbar {
+    padding: 0.6rem 0;
+  }
+  .ss-brand-name {
+    font-size: 1.3rem;
+  }
+  .ss-brand {
+    font-size: 1.3rem;
+    gap: 6px;
+  }
+  .ss-logo-icon-container {
+    width: 30px;
+    height: 30px;
+  }
+  .ss-hamburger-btn,
+  .ss-nav-icon-btn,
+  .ss-nav-profile-avatar-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+  .ss-btn-login {
+    padding: 0.4rem 0.85rem;
+    font-size: 0.8rem;
+  }
+}

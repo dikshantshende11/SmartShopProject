@@ -215,12 +215,55 @@
 /* ── RESPONSIVE DESIGN ── */
 @media (max-width: 991.98px) {
   .ss-hero-banner {
-    padding: 3rem 2rem;
+    padding: 2rem 1.75rem;
   }
   .ss-hero-title {
-    font-size: 2.2rem;
+    font-size: 2rem;
   }
   .ss-hero-desc {
     font-size: 0.95rem;
+  }
+  .ss-hero-image-container {
+    max-width: 240px;
+    margin: 0 auto;
+  }
+  .ss-hero-image-wrap {
+    justify-content: center;
+    padding-right: 0;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .ss-hero-banner {
+    padding: 1.25rem 1rem;
+    margin-bottom: 1.25rem;
+    border-radius: var(--radius-sm);
+  }
+  .ss-hero-badge {
+    font-size: 0.65rem;
+    padding: 4px 10px;
+    margin-bottom: 0.5rem;
+  }
+  .ss-hero-title {
+    font-size: 1.45rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+  }
+  .ss-hero-desc {
+    font-size: 0.82rem;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+  }
+  .ss-hero-btn {
+    padding: 0.6rem 1.25rem;
+    font-size: 0.82rem;
+  }
+  .ss-hero-image-container {
+    max-width: 160px;
+    max-height: 140px;
+  }
+  .ss-hero-dots {
+    margin-top: 0.85rem;
   }
 }

@@ -247,3 +247,31 @@
   font-weight: 600;
   color: var(--text-muted);
 }
+
+/* ───────────────────────────────────
+   MOBILE CHECKOUT RESPONSIVE RULES
+─────────────────────────────────── */
+@media (max-width: 767.98px) {
+  .checkout-section,
+  .checkout-summary-card {
+    padding: 1.25rem 1rem;
+    border-radius: var(--radius-sm);
+  }
+  .checkout-title {
+    font-size: 1.4rem;
+  }
+  .checkout-summary-card {
+    position: static;
+    margin-top: 1.5rem;
+  }
+  .payment-option {
+    padding: 10px 12px;
+  }
+  .payment-label {
+    font-size: 0.85rem;
+  }
+  .place-order-btn {
+    font-size: 0.95rem !important;
+    padding: 12px !important;
+  }
+}

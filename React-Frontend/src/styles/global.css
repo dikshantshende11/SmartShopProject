@@ -306,7 +306,21 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
 }
 
-/* Category Cards Micro-Animation */
+/* ── CATEGORIES CONTAINER & SCROLL TRACK ── */
+.categories-container {
+  width: 100%;
+  overflow: hidden;
+}
+
+.categories-scroll-track {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 36px;
+  padding: 8px 4px;
+}
+
 .category-pill-card {
   display: flex;
   flex-direction: column;
@@ -314,40 +328,86 @@ h1, h2, h3, h4, h5, h6 {
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  width: 120px;
+  width: 100px;
+  position: relative;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .category-icon-wrapper {
-  width: 80px;
-  height: 80px;
+  width: 72px;
+  height: 72px;
   border-radius: 50%;
   background: var(--bg-card) !important;
-  border: 1px solid var(--border) !important;
+  border: 1.5px solid var(--border) !important;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2.1rem;
-  margin-bottom: 10px;
+  font-size: 1.9rem;
+  margin-bottom: 8px;
   box-shadow: var(--shadow);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .category-label-text {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 700;
   color: var(--text-muted);
   transition: all 0.25s ease;
   font-family: 'Plus Jakarta Sans', sans-serif;
+  text-align: center;
+  white-space: nowrap;
 }
 
-.category-pill-card:hover .category-icon-wrapper {
-  transform: translateY(-5px);
+.category-pill-card:hover .category-icon-wrapper,
+.category-pill-card.category-pill-active .category-icon-wrapper {
+  transform: translateY(-4px);
   border-color: var(--primary) !important;
-  box-shadow: 0 8px 24px rgba(79, 70, 229, 0.2);
+  background: var(--primary-light) !important;
+  box-shadow: 0 8px 24px rgba(79, 70, 229, 0.25);
 }
 
-.category-pill-card:hover .category-label-text {
-  color: var(--primary);
+.category-pill-card:hover .category-label-text,
+.category-pill-card.category-pill-active .category-label-text {
+  color: var(--primary) !important;
+  font-weight: 800;
+}
+
+.category-active-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--primary);
+  margin-top: 4px;
+}
+
+/* Mobile Categories Horizontal Touch-Scroller */
+@media (max-width: 767.98px) {
+  .categories-scroll-track {
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 16px;
+    padding: 8px 12px 14px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+  }
+  .categories-scroll-track::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+  }
+  .category-pill-card {
+    width: 70px;
+    flex-shrink: 0;
+  }
+  .category-icon-wrapper {
+    width: 58px;
+    height: 58px;
+    font-size: 1.5rem;
+    margin-bottom: 6px;
+  }
+  .category-label-text {
+    font-size: 0.75rem;
+  }
 }
 
 /* ────────────────────────────────────────────────────
@@ -494,4 +554,23 @@ select option {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--primary);
+}
+
+/* ──────────────────────────────────────────────────
+   MOBILE GLOBAL APP-LIKE SAFE AREA & VIEWPORT RULES
+────────────────────────────────────────────────── */
+@media (max-width: 767.98px) {
+  body {
+    padding-bottom: 74px; /* Essential clearance for Mobile Bottom Navigation Bar */
+  }
+  .container, .container-fluid {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+  .ss-page {
+    padding: 1.25rem 0 3rem;
+  }
+  .ss-page-title {
+    font-size: 1.4rem;
+  }
 }

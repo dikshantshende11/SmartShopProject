@@ -8,7 +8,7 @@ import { fetchAllProducts } from "../services/productService";
 /* ── Skeleton card shown while loading ── */
 function SkeletonCard() {
   return (
-    <div className="col-md-4 mb-4">
+    <div className="col-6 col-md-4 col-lg-3 mb-3 mb-md-4 px-1 px-sm-2 px-md-3">
       <div className="skeleton-card">
         <div className="skeleton-image skeleton-shimmer" />
         <div className="skeleton-body">
@@ -26,8 +26,16 @@ function Home() {
   const [searchParams] = useSearchParams();
   const searchTerm = searchParams.get("search") || "";
 
-  const [products, setProducts]               = useState([]);
-  const [loading, setLoading]                 = useState(true);
+  // Instant Cache Fallback for 0-second loading
+  const [products, setProducts] = useState(() => {
+    try {
+      const cached = localStorage.getItem("smartshop_cached_products");
+      return cached ? JSON.parse(cached) : [];
+    } catch {
+      return [];
+    }
+  });
+  const [loading, setLoading] = useState(() => products.length === 0);
   const [selectedCategory, setSelectedCategory] = useState(null);
   
   // Advanced Sorting & Filter States
@@ -37,9 +45,12 @@ function Home() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        setLoading(true);
+        if (products.length === 0) setLoading(true);
         const data = await fetchAllProducts();
-        setProducts(data);
+        if (data && data.length > 0) {
+          setProducts(data);
+          localStorage.setItem("smartshop_cached_products", JSON.stringify(data));
+        }
       } catch (error) {
         console.error("Error fetching products:", error);
       } finally {
@@ -95,44 +106,42 @@ function Home() {
       />
 
       {/* CATALOG CONTROLS TOOLBAR */}
-      <div className="catalog-toolbar d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4 p-3 rounded" style={{ background: "var(--bg-card)", border: "1px solid var(--border)" }}>
+      <div className="catalog-toolbar d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between gap-2 gap-sm-3 mb-3 mb-md-4 p-2 p-sm-3 rounded" style={{ background: "var(--bg-card)", border: "1px solid var(--border)" }}>
         <div className="d-flex align-items-center gap-2">
-          <h2 style={{ fontFamily: "'Syne', sans-serif", fontWeight: "800", marginBottom: 0 }}>
+          <h2 style={{ fontFamily: "'Syne', sans-serif", fontWeight: "800", marginBottom: 0, fontSize: "1.25rem" }}>
             {sectionTitle}
           </h2>
-          <span className="badge bg-primary rounded-pill">{processedProducts.length} items</span>
+          <span className="badge bg-primary rounded-pill">{processedProducts.length}</span>
         </div>
 
-        <div className="d-flex flex-wrap align-items-center gap-3">
+        <div className="d-flex flex-wrap align-items-center gap-2 w-100 w-sm-auto justify-content-between justify-content-sm-end">
           {/* Min Rating Filter */}
-          <div className="d-flex align-items-center gap-2">
-            <label className="toolbar-label text-muted mb-0" style={{ fontSize: "0.85rem", fontWeight: "700" }}>Rating:</label>
+          <div className="d-flex align-items-center gap-1">
             <select
               className="form-select form-select-sm toolbar-select"
-              style={{ width: "130px", background: "var(--bg-card2)", color: "var(--text)", borderColor: "var(--border)", fontWeight: "600" }}
+              style={{ width: "115px", background: "var(--bg-card2)", color: "var(--text)", borderColor: "var(--border)", fontWeight: "600", fontSize: "0.8rem" }}
               value={minRating}
               onChange={(e) => setMinRating(Number(e.target.value))}
             >
               <option value={0}>All Ratings</option>
-              <option value={4.0}>4.0★ & above</option>
-              <option value={4.5}>4.5★ & above</option>
+              <option value={4.0}>4.0★ & up</option>
+              <option value={4.5}>4.5★ & up</option>
             </select>
           </div>
 
           {/* Sort By Dropdown */}
-          <div className="d-flex align-items-center gap-2">
-            <label className="toolbar-label text-muted mb-0" style={{ fontSize: "0.85rem", fontWeight: "700" }}>Sort By:</label>
+          <div className="d-flex align-items-center gap-1">
             <select
               className="form-select form-select-sm toolbar-select"
-              style={{ width: "175px", background: "var(--bg-card2)", color: "var(--text)", borderColor: "var(--border)", fontWeight: "600" }}
+              style={{ width: "135px", background: "var(--bg-card2)", color: "var(--text)", borderColor: "var(--border)", fontWeight: "600", fontSize: "0.8rem" }}
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
             >
               <option value="featured">Featured</option>
-              <option value="price-asc">Price: Low to High</option>
-              <option value="price-desc">Price: High to Low</option>
-              <option value="rating-desc">Highest Rated</option>
-              <option value="name-asc">Name: A to Z</option>
+              <option value="price-asc">Price: Low</option>
+              <option value="price-desc">Price: High</option>
+              <option value="rating-desc">Top Rated</option>
+              <option value="name-asc">Name: A-Z</option>
             </select>
           </div>
 
@@ -140,21 +149,21 @@ function Home() {
           {(selectedCategory || sortBy !== "featured" || minRating !== 0) && (
             <button
               className="btn btn-sm btn-outline-danger"
-              style={{ borderRadius: "99px", fontWeight: "700", fontSize: "0.8rem", padding: "4px 14px" }}
+              style={{ borderRadius: "99px", fontWeight: "700", fontSize: "0.75rem", padding: "3px 10px" }}
               onClick={handleResetFilters}
             >
-              ✕ Reset Filters
+              ✕ Clear
             </button>
           )}
         </div>
       </div>
 
-      <div className="row">
-        {loading ? (
-          Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)
+      <div className="row g-2 g-sm-3 g-md-4">
+        {loading && products.length === 0 ? (
+          Array.from({ length: 8 }).map((_, i) => <SkeletonCard key={i} />)
         ) : processedProducts.length > 0 ? (
           processedProducts.map((product) => (
-            <div key={product.id} className="col-md-4 mb-4">
+            <div key={product.id} className="col-6 col-md-4 col-lg-3 mb-2 mb-md-4 px-1 px-sm-2 px-md-3">
               <ProductCard
                 id={product.id}
                 title={product.name}

@@ -177,3 +177,27 @@
   font-size: 0.82rem;
   font-weight: 600;
 }
+
+/* ───────────────────────────────────
+   MOBILE CART RESPONSIVE DESIGN
+─────────────────────────────────── */
+@media (max-width: 767.98px) {
+  .ss-cart-item {
+    padding: 1rem;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .ss-cart-item-name {
+    font-size: 0.9rem;
+  }
+  .ss-order-summary {
+    position: static;
+    margin-top: 1.5rem;
+    padding: 1.25rem 1rem;
+  }
+  .ss-btn-remove {
+    margin-left: 0.5rem;
+    padding: 0.35rem 0.65rem;
+    font-size: 0.75rem;
+  }
+}
